@@ -1,0 +1,43 @@
+.photo-details-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1400;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.photo-details-modal {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 450px;
+    color: #1e293b;
+}
+
+.photo-details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.photo-details-header h2 {
+    margin: 0;
+}
+
+.photo-details-header button {
+    border: none;
+    background: black;
+    border-radius: 8px;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.photo-details-content p {
+    padding: 8px 0;
+    border-bottom: 1px solid #e2e8f0;
+}

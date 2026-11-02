@@ -1,0 +1,44 @@
+.photo-delete-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1300;
+    background: rgba(0, 0, 0, 0.65);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.photo-delete-modal {
+    width: 100%;
+    max-width: 400px;
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    color: #1e293b;
+}
+
+.photo-delete-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.photo-delete-actions button {
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.confirm-photo-delete {
+    background: #dc2626;
+    color: white;
+}
+
+.photo-delete-actions button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

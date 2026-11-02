@@ -1,0 +1,108 @@
+.album-details {
+    width: 100%;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+}
+
+h2 {
+    color: #1e293b;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.back-link {
+    display: block;
+    width: fit-content;
+    text-align: left;
+    margin-bottom: 20px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 8px 12px;
+    text-decoration: none;
+    color: #1e293b;
+}
+
+.album-details a:hover {
+    background-color: #dbdfe3;
+    border-color: #cbd5e1;
+    transition: 0.3s;
+    text-decoration: none !important;
+}
+
+.album-details h1 {
+    color: #1e293b;
+    font-size: 32px;
+}
+
+.album-details p {
+    color: #475569;
+    font-size: 16px;
+}
+
+.album-details a {
+    color: #2563eb;
+    text-decoration: none;
+}
+
+.album-details a:hover {
+    text-decoration: underline;
+}
+
+.photos-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.photos-header button {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.photos-header button:hover {
+    background-color: #1d4ed8;
+}
+
+.photos-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.photos-actions .delete-all-photos-button {
+    background-color: transparent;
+    color: #dc2626;
+    border: 1px solid #dc2626;
+    border-radius: 8px;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.photos-actions .delete-all-photos-button:hover {
+    background-color: #dc2626;
+    color: white;
+}
+
+.photos-actions .delete-all-photos-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+    .photos-header {
+        flex-wrap: wrap;
+    }
+
+    .photos-actions {
+        flex-wrap: wrap;
+    }
+}
