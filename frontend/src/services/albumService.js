@@ -1,7 +1,9 @@
+import { apiFetch } from './api';
+
 const API_URL = '/api/albums';
 
 export async function getAlbums() {
-    const response = await fetch(API_URL);
+    const response = await apiFetch(API_URL);
 
     if (!response.ok) {
         throw new Error('Napaka pri pridobivanju albumov');
@@ -11,7 +13,7 @@ export async function getAlbums() {
 }
 
 export async function createAlbum(album) {
-    const response = await fetch(API_URL, {
+    const response = await apiFetch(API_URL, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -27,7 +29,7 @@ export async function createAlbum(album) {
 }
 
 export async function updateAlbum(id, updatedAlbum) {
-    const response = await fetch(`${API_URL}/${id}`, {
+    const response = await apiFetch(`${API_URL}/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -44,7 +46,7 @@ export async function updateAlbum(id, updatedAlbum) {
 
 
 export async function deleteAlbum(id) {
-    const response = await fetch(`${API_URL}/${id}`, {
+    const response = await apiFetch(`${API_URL}/${id}`, {
         method: 'DELETE'
     });
 
@@ -55,7 +57,7 @@ export async function deleteAlbum(id) {
 
 // Dodatna funkcija za pridobivanje albuma po ID-ju
 export async function getAlbumById(id) {
-    const response = await fetch(`${API_URL}/${id}`);
+    const response = await apiFetch(`${API_URL}/${id}`);
 
     if (!response.ok) {
         throw new Error('Napaka pri pridobivanju albuma');
@@ -66,7 +68,7 @@ export async function getAlbumById(id) {
 
 
 export async function deleteAllAlbums() {
-    const response = await fetch(`${API_URL}/all`, {
+    const response = await apiFetch(`${API_URL}/all`, {
         method: 'DELETE'
     });
 

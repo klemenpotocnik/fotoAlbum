@@ -12,7 +12,6 @@ import AlbumForm from '../components/AlbumForm';
 import AddAlbumCard from '../components/AddAlbumCard';
 import ForumModal from '../components/ForumModal';
 import DeleteConfirmModal from '../components/DeleteConfirmModal';
-import DeleteAllButton from '../components/DeleteAllButton';
 import AllPhotos from '../components/AllPhotos';
 
 function Home() {
@@ -142,10 +141,13 @@ function Home() {
             <div className="albums-header">
                 <h1>Moji albumi</h1>
 
-                <DeleteAllButton
+                <button
+                    className="delete-all-button"
                     onClick={() => setIsDeleteAllOpen(true)}
                     disabled={loading || deleting || albums.length === 0}
-                />
+                >
+                    Izbriši vse
+                </button>
             </div>
 
             {loading && <p>Nalaganje albumov...</p>}

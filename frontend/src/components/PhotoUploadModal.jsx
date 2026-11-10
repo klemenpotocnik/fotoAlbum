@@ -1,26 +1,21 @@
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import '../oblika/PhotoUploadModal.css';
+
+function PreviewImage({ file }) {
+    const image = useRef(null);
+    useEffect(() => {
+        const url = URL.createObjectURL(file);
+        image.current.src = url;
+        return () => URL.revokeObjectURL(url);
+    }, [file]);
+    return <img ref={image} alt={file.name} />;
+}
 
 function PhotoUploadModal({ onUpload, onClose }) {
     const [files, setFiles] = useState([]);
-    const [previews, setPreviews] = useState([]);
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState('');
-
-    // Ustvarjanje predogledov fotografij
-    useEffect(() => {
-        const urls = files.map(file => ({
-            file,
-            url: URL.createObjectURL(file)
-        }));
-
-        setPreviews(urls);
-
-        return () => {
-            urls.forEach(item => URL.revokeObjectURL(item.url));
-        };
-    }, [files]);
 
     const handleFileChange = (event) => {
         const selectedFiles = Array.from(event.target.files);
@@ -95,17 +90,14 @@ function PhotoUploadModal({ onUpload, onClose }) {
                     />
                 </label>
 
-                {previews.length > 0 && (
+                {files.length > 0 && (
                     <>
                         <p>Izbrane fotografije ({files.length})</p>
 
                         <div className="photo-preview-grid">
-                            {previews.map((item, index) => (
-                                <div className="photo-preview" key={item.url}>
-                                    <img
-                                        src={item.url}
-                                        alt={item.file.name}
-                                    />
+                            {files.map((file, index) => (
+                                <div className="photo-preview" key={`${file.name}-${file.lastModified}-${index}`}>
+                                    <PreviewImage file={file} />
 
                                     <button
                                         onClick={() => removeFile(index)}

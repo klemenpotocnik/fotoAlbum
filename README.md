@@ -6,10 +6,12 @@ Dokument opisuje namen sistema, uporabljene tehnologije, zgradbo kode ter postop
 
 ## 1 O projektu
 
-FotoAlbum je spletna aplikacija za organiziranje digitalnih fotografij v albume. Cilj projekta je omogočiti enostavno ustvarjanje in urejanje albumov, nalaganje fotografij ter pregledovanje zbirke na enem mestu.
+FotoAlbum je spletna aplikacija za organiziranje digitalnih fotografij v zasebne uporabniške albume. Cilj projekta je omogočiti enostavno ustvarjanje in urejanje albumov, nalaganje fotografij ter pregledovanje zbirke na enem mestu.
 
 ### Glavne funkcionalnosti
 
+- Registracija z e-pošto in geslom, prijava ter odjava.
+- Ločena zasebna zbirka albumov in slik za vsak uporabniški račun.
 - Ustvarjanje, pregled, urejanje in brisanje albumov.
 - Nalaganje ene ali več fotografij JPG oziroma PNG v izbrani album.
 - Pregled vseh fotografij ali fotografij posameznega albuma ter prikaz podrobnosti.
@@ -19,9 +21,11 @@ FotoAlbum je spletna aplikacija za organiziranje digitalnih fotografij v albume.
 
 ### Delovanje sistema
 
-Uporabniški vmesnik React pošilja zahteve REST v Spring Boot. Backend v PostgreSQL shranjuje albume in podatke o fotografijah, slikovne datoteke pa v mapo uploads. Pri brisanju fotografije odstrani zapis iz baze in datoteko z diska.
+Uporabniški vmesnik React pošilja zahteve REST v Spring Boot. Backend v PostgreSQL shranjuje uporabnike, njihove albume in podatke o fotografijah, slikovne datoteke pa v mapo `uploads`. Gesla shranjuje kot BCrypt hash. Prijavo ohranja strežniška seja v piškotku `HttpOnly`; zahteve, ki spreminjajo podatke, so zaščitene s CSRF. Backend preverja lastništvo tudi pri slikovnih datotekah in množičnem brisanju. Pri brisanju fotografije odstrani zapis iz baze in datoteko z diska.
 
 Omejitvi velikosti sta 10 MB za posamezno fotografijo in 100 MB za celotno zahtevo. Fotografije brez prepoznanega datuma EXIF ostanejo brez datuma nastanka; pri nefiltriranem razvrščanju se uporabi datum nalaganja. Datumski filter upošteva datum nastanka, zato fotografij brez tega podatka ne vključi med rezultate.
+
+Neprijavljen obiskovalec se preusmeri na `/login`. Na `/signup` ustvari račun, nato se prijavi in odpre svojo zbirko na `/`. Registracija zahteva veljavno e-pošto, geslo z najmanj 8 znaki ter ujemanje ponovitve gesla. Seja se ohrani ob osvežitvi strani, po 30 minutah nedejavnosti oziroma ponovnem zagonu backenda pa je potrebna nova prijava. Odjava počisti prikazano zbirko.
 
 ### Kazalo
 
@@ -59,6 +63,7 @@ Različice frontenda so povzete iz package-lock.json. Datoteka package.json dolo
 | --- | --- | --- |
 | Java JDK | 25 | Izvajanje in prevajanje |
 | Spring Boot in njegovi starterji | 4.1.1 | Web MVC, JPA, validacija in podpora za teste |
+| Spring Security | 7.1.1 | Prijava, seje, BCrypt in zaščita CSRF |
 | Spring Boot DevTools | 4.1.1 | Samodejni ponovni zagon med razvojem |
 | Spring Framework / Hibernate | 7.0.9 / 7.4.5.Final | Ogrodje in preslikava ORM |
 | Maven / Maven Wrapper | 3.9.16 / 3.3.4 | Odvisnosti in gradnja |
@@ -67,33 +72,35 @@ Različice frontenda so povzete iz package-lock.json. Datoteka package.json dolo
 | springdoc OpenAPI WebMVC UI | 3.1.1 | Dokumentacija API in Swagger UI |
 | metadata-extractor | 2.19.0 | Branje metapodatkov fotografij |
 
-Sistem uporablja podatkovno bazo PostgreSQL. Različica strežnika PostgreSQL v projektu ni pripeta. Za frontend namesti Node.js 24 z npm. Git se uporablja za nadzor različic, GitHub pa za sodelovanje in hrambo kode.
-
-V `pom.xml` so še vključene testne odvisnosti `spring-boot-starter-data-jpa-test`, `spring-boot-starter-validation-test` in `spring-boot-starter-webmvc-test` različice 4.1.1. Projekt trenutno nima napisanih avtomatiziranih testov.
+Sistem uporablja PostgreSQL; preverjeno razvojno okolje ima strežnik različice 18.6. Za frontend namesti Node.js 24 z npm. Git se uporablja za nadzor različic, GitHub pa za sodelovanje in hrambo kode.
 
 ## 3 Struktura projekta
 
 ```text
 fotoAlbum/
 ├── backend/
+│   ├── database/001_accounts.sql # priprava tabel trenutne aplikacije
 │   ├── .mvn/wrapper/           # nastavitev Maven Wrapper
 │   ├── mvnw in mvnw.cmd        # zagon Maven
 │   ├── pom.xml                 # odvisnosti in Java 25
 │   ├── src/main/
 │   │   ├── java/fotoAlbum/fotoAlbum/
 │   │   │   ├── FotoAlbumApplication.java
+│   │   │   ├── config/         # Spring Security
 │   │   │   ├── controller/     # končne točke REST
 │   │   │   ├── service/        # obdelava fotografij
 │   │   │   ├── repository/     # dostop do baze
-│   │   │   ├── model/          # entiteti Album in Photo
+│   │   │   ├── model/          # AppUser, Album in Photo
 │   │   │   └── dto/            # podatki zahtev in odgovorov
 │   │   └── resources/application.properties
+│   ├── uploads/                # slike pri zagonu iz backend
 │   └── target/                 # rezultat gradnje
 ├── frontend/
 │   ├── src/
 │   │   ├── assets/             # slike in statični viri
+│   │   ├── auth/               # seja in prijavljeni uporabnik
 │   │   ├── components/         # kartice, galerije, obrazci
-│   │   ├── pages/              # Home in AlbumDetails
+│   │   ├── pages/              # Home, AlbumDetails in AuthPage
 │   │   ├── services/           # klici REST prek fetch
 │   │   ├── oblika/             # slogovne datoteke CSS
 │   │   ├── App.jsx             # poti aplikacije
@@ -101,14 +108,13 @@ fotoAlbum/
 │   ├── package.json in package-lock.json
 │   ├── vite.config.js          # razvojni proxy /api
 │   └── eslint.config.js        # pravila preverjanja kode
-├── uploads/                    # lokalno naložene fotografije
 ├── .gitignore                  # izključitve iz Git
 └── README.md                   # dokumentacija repozitorija
 ```
 
 ### Razdelitev odgovornosti
 
-Controller sprejme zahtevo HTTP, service izvaja obdelavo fotografij, repository pa bere in shranjuje entitete v bazo. DTO določa obliko podatkov, ki jih backend izmenjuje z odjemalcem. AlbumController trenutno uporablja AlbumRepository tudi neposredno.
+Controller sprejme zahtevo HTTP, service izvaja obdelavo fotografij, repository pa bere in shranjuje entitete v bazo. DTO določa obliko podatkov, ki jih backend izmenjuje z odjemalcem. AlbumController uporablja AlbumRepository tudi neposredno, odgovore pa oblikuje z DTO. `CurrentUser` določi prijavljenega uporabnika; lastništvo albuma določi strežnik, ne odjemalec.
 
 Frontend ločuje prikaz v components in pages od omrežnih klicev v services. Slogi so v mapi oblika ter v App.css in index.css. Vite preusmeri razvojne zahteve /api na http://localhost:8080.
 
@@ -120,7 +126,7 @@ Mape target, node_modules, dist in uploads so lokalno ustvarjene in jih .gitigno
 
 - Namesti JDK 25 ter nastavi JAVA_HOME na mapo JDK in dodaj njegovo mapo bin v PATH.
 - Namesti Node.js 24 z npm in Git. Maven se prenese prek priloženega Maven Wrapper, zato ločena namestitev ni potrebna.
-- Namesti in zaženi PostgreSQL. Pri lokalnem zagonu je pričakovana povezava na localhost:5432.
+- Namesti PostgreSQL in preveri, da je zagnan. Aplikacija se povezuje z bazo na tvojem računalniku prek naslova `localhost` in vrat `5432`. Za izvajanje spodnjih ukazov potrebuješ orodje `psql`, ki je del namestitve PostgreSQL.
 - Za prvi prenos Maven in npm odvisnosti potrebuješ dostop do interneta. Vrati 8080 za backend in 5173 za frontend naj bosta prosti.
 
 V PowerShellu preveri namestitve:
@@ -150,7 +156,9 @@ CREATE DATABASE fotoalbum OWNER fotoalbum_user;
 
 Geslo v primeru zamenjaj z lastnim. Če baza ali račun že obstajata, uporabi njune obstoječe podatke. Aplikacijski uporabnik mora imeti pravice za ustvarjanje in spreminjanje tabel v svoji bazi.
 
-Tabel ni treba ročno ustvarjati: nastavitev spring.jpa.hibernate.ddl-auto=update ob zagonu posodobi shemo. Podatki o albumih in fotografijah se shranjujejo v tabeli albums in photos.
+Pred prvim zagonom aplikacije ustvari bazo `fotoalbum`, kot je prikazano zgoraj, in vanjo dodaj pripravljeno shemo iz datoteke [`backend/database/001_accounts.sql`](backend/database/001_accounts.sql).
+
+V pgAdmin izberi bazo `fotoalbum` in odpri **Query Tool**. Vanj kopiraj celotno vsebino datoteke `001_accounts.sql` ter jo izvedi z gumbom **Execute** ali tipko **F5**. S tem ustvariš tabele za uporabnike, albume in fotografije ter povezave med njimi. Nato lahko zaženeš backend.
 
 ### 4.4 Nastavitve baze in shranjevanja
 
@@ -166,12 +174,12 @@ $env:SPRING_DATASOURCE_URL = 'jdbc:postgresql://localhost:5432/fotoalbum'
 $env:SPRING_DATASOURCE_USERNAME = 'fotoalbum_user'
 $env:SPRING_DATASOURCE_PASSWORD = 'izberi_lokalno_geslo'
 $env:APP_UPLOAD_DIR = (Join-Path (Get-Location) 'uploads')
-.\mvnw.cmd org.springframework.boot:spring-boot-maven-plugin:4.1.1:run
+.\mvnw.cmd spring-boot:run
 ```
 
 Uporabi isto geslo kot pri ustvarjanju računa. Spremenljivke veljajo za trenutni terminal in njegove procese. APP_UPLOAD_DIR določi mapo za slikovne datoteke; aplikacija jo ustvari ob prvem nalaganju. Ta mapa mora biti zapisljiva.
 
-Uporabljen je polni Maven cilj, ker pom.xml trenutno ne deklarira vtičnika spring-boot-maven-plugin. Na Linuxu oziroma macOS uporabi ./mvnw namesto .\mvnw.cmd in spremenljivke nastavi z export IME=vrednost. Če je treba, prej izvedi chmod +x mvnw.
+Vtičnik `spring-boot-maven-plugin` je deklariran v `pom.xml`. Na Linuxu oziroma macOS uporabi ./mvnw namesto .\mvnw.cmd in spremenljivke nastavi z export IME=vrednost. Če je treba, prej izvedi chmod +x mvnw.
 
 ### 4.6 Zagon frontenda v drugem terminalu
 
@@ -185,11 +193,27 @@ npm run dev
 
 Odpri http://localhost:5173 oziroma naslov, izpisan v terminalu. Backend je na http://localhost:8080. Frontend uporablja relativne poti /api; razvojni proxy je nastavljen v frontend/vite.config.js. Trenutna koda ne zahteva frontend spremenljivk VITE_*.
 
-Datoteka .env se v Spring Boot ne naloži samodejno. Za backend uporabi prikazane okoljske spremenljivke ali nastavitve v razvojnem okolju. Gesel in lokalnih .env datotek ne vključuj v Git.
-
 ### 4.7 Preverjanje delovanja
 
-Odpri http://localhost:8080/api/albums; v prazni bazi pričakuj []. Dokumentacija API je na http://localhost:8080/swagger-ui/index.html, opis OpenAPI pa na /v3/api-docs. V vmesniku ustvari album, naloži JPG ali PNG, označi fotografijo kot priljubljeno in preveri prikaz po ponovnem nalaganju strani.
+Odpri http://localhost:5173. Najprej se prikaže prijava; prek povezave Ustvari račun se registriraj, nato se prijavi. Nov račun ima prazno zbirko. Ustvari album, naloži JPG ali PNG in preveri priljubljene ter ohranitev prijave ob osvežitvi. Gumb Odjava vrne na prijavo.
+
+Neposreden neprijavljen klic `/api/albums` vrne `401`, ne praznega seznama. Tuj ali neobstoječ album oziroma fotografija prijavljenemu uporabniku vrne `404`. Zapisovalna zahteva brez veljavnega žetona CSRF vrne `403`.
+
+### API za prijavo
+
+| Zahteva | Namen |
+| --- | --- |
+| `GET /api/auth/csrf` | Vrne žeton in ime glave za naslednje zapisovalne zahteve. |
+| `POST /api/auth/signup` | JSON z `email` in `password`; ustvari račun in vrne `201`. |
+| `POST /api/auth/login` | Obrazec `application/x-www-form-urlencoded` z `email` in `password`; vzpostavi sejo. |
+| `GET /api/auth/me` | Vrne ID in e-pošto trenutnega uporabnika. |
+| `POST /api/auth/logout` | Razveljavi sejo in vrne `204`. |
+
+CSRF je potreben tudi pri prijavi, registraciji, odjavi in nalaganju datotek. Po prijavi in odjavi pridobi nov žeton. Frontend to ureja v `services/api.js` in `authService.js`. Gesel ali žetonov za prijavo ne shranjuje v localStorage.
+
+Swagger UI je na http://localhost:8080/swagger-ui/index.html, opis OpenAPI pa na `/v3/api-docs`; oba zahtevata prijavo. Če frontend odpreš na `localhost:5173` in se tam prijaviš, brskalnik sejni piškotek pošlje tudi na `localhost:8080`. Naslovov `localhost` in `127.0.0.1` pri tem ne mešaj. Pri zapisovalnih klicih iz drugih odjemalcev moraš poleg seje poslati tudi žeton CSRF.
+
+Pri objavi uporabi HTTPS, nastavi `SESSION_COOKIE_SECURE=true` in ohrani enoten izvor za frontend in `/api`. Razvojni Vite proxy ni nastavitev produkcijskega strežnika.
 
 ### Pogoste težave
 
@@ -227,7 +251,7 @@ V mapi backend preveri prevajanje in izdelavo paketa:
 .\mvnw.cmd package
 ```
 
-Projekt trenutno nima avtomatiziranih testov na backendu ali frontendu. Ukaz Maven preveri gradnjo backenda; `npm run lint` preveri pravila kode, `npm run build` pa gradnjo frontenda. Uspešna gradnja sama po sebi ne potrdi pravilnega delovanja funkcionalnosti.
+`npm run lint` preveri pravila kode, `npm run build` gradnjo frontenda, Maven pa gradnjo backenda. Projekt trenutno nima avtomatiziranih testov, zato funkcionalnosti preveri ročno.
 
 Po zagonu obeh delov aplikacije in PostgreSQL ročno preveri:
 
@@ -245,6 +269,8 @@ git add <izbrane-datoteke>
 git commit -m "feat: kratek opis spremembe"
 git push -u origin feature/opis-spremembe
 ```
+
+`<izbrane-datoteke>` zamenjaj z dejanskimi potmi datotek, `feature/opis-spremembe` pa z imenom svoje veje iz poglavja 5.1.
 
 V GitHubu odpri pull request proti main. Opiši namen, spremenjeno vedenje in izvedena preverjanja; pri spremembah vmesnika priloži sliko. Po pregledu in uspešnih preverjanjih združi spremembo ter lokalno posodobi main.
 

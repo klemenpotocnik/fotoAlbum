@@ -1,7 +1,9 @@
+import { apiFetch } from './api';
+
 const API_URL = '/api';
 
 export async function getPhotosByAlbumId(albumId) {
-    const response = await fetch(
+    const response = await apiFetch(
         `${API_URL}/albums/${albumId}/photos`
     );
 
@@ -24,7 +26,7 @@ export async function uploadPhotos(albumId, files) {
         formData.append('files', file);
     }
 
-    const response = await fetch(`/api/albums/${albumId}/photos`, {
+    const response = await apiFetch(`/api/albums/${albumId}/photos`, {
         method: 'POST',
         body: formData
     });
@@ -37,7 +39,7 @@ export async function uploadPhotos(albumId, files) {
 }
 
 export async function deletePhoto(id) {
-    const response = await fetch(`/api/photos/${id}`, {
+    const response = await apiFetch(`/api/photos/${id}`, {
         method: 'DELETE'
     });
 
@@ -47,7 +49,7 @@ export async function deletePhoto(id) {
 }
 
 export async function deleteAllPhotos(albumId) {
-    const response = await fetch(`/api/albums/${albumId}/photos`, {
+    const response = await apiFetch(`/api/albums/${albumId}/photos`, {
         method: 'DELETE'
     });
 
@@ -57,7 +59,7 @@ export async function deleteAllPhotos(albumId) {
 }
 
 export async function getPhotoById(id) {
-    const response = await fetch(`/api/photos/${id}`);
+    const response = await apiFetch(`/api/photos/${id}`);
 
     if (!response.ok) {
         throw new Error('Napaka pri pridobivanju podatkov fotografije');
@@ -72,7 +74,7 @@ export async function getAllPhotos({ startDate, endDate, favoritesOnly } = {}) {
     if (endDate) params.set('endDate', endDate);
     if (favoritesOnly) params.set('favoritesOnly', 'true');
 
-    const response = await fetch(`${API_URL}/photos${params.size ? `?${params}` : ''}`);
+    const response = await apiFetch(`${API_URL}/photos${params.size ? `?${params}` : ''}`);
 
     if (!response.ok) {
         throw new Error('Napaka pri pridobivanju fotografij');
@@ -82,7 +84,7 @@ export async function getAllPhotos({ startDate, endDate, favoritesOnly } = {}) {
 }
 
 export async function setPhotoFavorite(id, favorite) {
-    const response = await fetch(`${API_URL}/photos/${id}/favorite`, {
+    const response = await apiFetch(`${API_URL}/photos/${id}/favorite`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ favorite })

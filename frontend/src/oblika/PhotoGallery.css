@@ -28,31 +28,31 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
-    color: #1e293b;
+    color: var(--color-mariner-950);
 }
 
 .photo-date-filter input,
 .photo-date-filter button {
     padding: 10px 14px;
-    border: 1px solid #94a3b8;
+    border: 1px solid var(--color-mariner-300);
     border-radius: 6px;
     font: inherit;
 }
 
 .photo-date-filter input {
-    background: white;
-    color: #1e293b;
+    background: var(--color-mariner-50);
+    color: var(--color-mariner-950);
 }
 
 .photo-date-filter button {
-    background: #2563eb;
-    color: white;
+    background: var(--color-mariner-600);
+    color: var(--color-mariner-50);
     cursor: pointer;
 }
 
 .photo-date-filter .photo-filter-clear {
-    background: #e2e8f0;
-    color: #1e293b;
+    background: var(--color-mariner-200);
+    color: var(--color-mariner-950);
 }
 
 .photo-favorites-filter {
@@ -60,12 +60,12 @@
     align-items: center;
     gap: 8px;
     margin: 12px 0;
-    color: #1e293b;
+    color: var(--color-mariner-950);
     cursor: pointer;
 }
 
 .photo-favorites-filter input {
     width: 18px;
     height: 18px;
-    accent-color: #2563eb;
+    accent-color: var(--color-mariner-600);
 }

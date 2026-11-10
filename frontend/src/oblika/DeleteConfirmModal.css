@@ -1,7 +1,7 @@
 .delete-overlay {
     position: fixed;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgb(12 36 69 / 0.6);
 
     display: flex;
     justify-content: center;
@@ -12,28 +12,28 @@
 }
 
 .delete-modal {
-    background-color: white;
+    background-color: var(--color-mariner-50);
     border-radius: 12px;
     padding: 25px;
 
     width: 100%;
     max-width: 400px;
 
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 30px rgb(12 36 69 / 0.2);
 }
 
 .delete-modal h2 {
     margin: 0 0 15px;
-    color: #1e293b;
+    color: var(--color-mariner-950);
 }
 
 .delete-modal p {
-    color: #475569;
+    color: var(--color-mariner-800);
 }
 
 .delete-warning {
     font-size: 13px;
-    color: #dc2626 !important;
+    color: var(--color-mariner-900) !important;
 }
 
 .delete-actions {
@@ -52,19 +52,19 @@
 }
 
 .cancel-button {
-    background-color: #f1f5f9;
-    border: 1px solid #cbd5e1;
-    color: #334155;
+    background-color: var(--color-mariner-100);
+    border: 1px solid var(--color-mariner-200);
+    color: var(--color-mariner-900);
 }
 
 .delete-button {
-    background-color: #dc2626;
+    background-color: var(--color-danger);
     border: none;
-    color: white;
+    color: var(--color-mariner-50);
 }
 
 .delete-button:hover {
-    background-color: #b91c1c;
+    background-color: var(--color-danger-hover);
 }
 
 .delete-actions button:disabled {

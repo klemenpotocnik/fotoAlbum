@@ -3,7 +3,7 @@
     aspect-ratio: 1 / 1;
     border-radius: 10px;
     overflow: hidden;
-    background-color: #e2e8f0;
+    background-color: var(--color-mariner-200);
 }
 
 .photo-card img {
@@ -30,8 +30,8 @@
     width: 34px;
     height: 34px;
 
-    background-color: rgba(0, 0, 0, 0.65);
-    color: white;
+    background-color: var(--color-danger);
+    color: var(--color-mariner-50);
 
     border: none;
     border-radius: 8px;
@@ -48,7 +48,7 @@
 }
 
 .photo-delete-button:hover {
-    background-color: #dc2626;
+    background-color: var(--color-danger-hover);
 }
 
 @media (hover: none) {
@@ -83,14 +83,15 @@
     padding: 0;
     border: none;
     border-radius: 8px;
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
+    background: rgb(12 36 69 / 0.7);
+    color: var(--color-mariner-50);
     font-size: 28px;
     cursor: pointer;
 }
 
 .photo-favorite-button.is-favorite {
-    color: #facc15;
+    background: var(--color-mariner-50);
+    color: var(--color-mariner-700);
 }
 
 .photo-favorite-button:disabled {
@@ -99,7 +100,7 @@
 }
 
 .photo-favorite-button:focus-visible {
-    outline: 3px solid #2563eb;
+    outline: 3px solid var(--color-mariner-600);
     outline-offset: 2px;
 }
 
@@ -110,7 +111,7 @@
     right: 0;
     margin: 0;
     padding: 10px;
-    background: #991b1b;
-    color: white;
+    background: var(--color-mariner-950);
+    color: var(--color-mariner-50);
     font-size: 14px;
 }

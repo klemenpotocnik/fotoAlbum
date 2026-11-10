@@ -10,6 +10,10 @@ import '../oblika/AlbumDetails.css';
 
 function AlbumDetails() {
     const { id } = useParams();
+    return <AlbumDetailsContent key={id} id={id} />;
+}
+
+function AlbumDetailsContent({ id }) {
 
     const [album, setAlbum] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -54,9 +58,6 @@ function AlbumDetails() {
             }
         };
 
-        setLoading(true);
-        setAlbum(null);
-        setError('');
         loadAlbum();
 
         return () => {
@@ -87,9 +88,6 @@ function AlbumDetails() {
             }
         };
 
-        setPhotosLoading(true);
-        setPhotos([]);
-        setPhotosError('');
         loadPhotos();
 
         return () => {
@@ -152,6 +150,7 @@ function AlbumDetails() {
                 const remainingPhotos = await getPhotosByAlbumId(id);
                 setPhotos(remainingPhotos);
             } catch {
+                // Keep the original deletion error if refreshing also fails.
             }
         } finally {
             setDeletingAll(false);

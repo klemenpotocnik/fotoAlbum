@@ -7,13 +7,13 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #f0f2f5;
+  background-color: var(--color-mariner-100);
   font-family: Arial, sans-serif;
 }
 
 nav {
-  background-color: #8293f3;
-  color: white;
+  background-color: var(--color-mariner-600);
+  color: var(--color-mariner-50);
   padding: 15px 20px;
 }
 
@@ -28,7 +28,7 @@ nav h2 {
   justify-content: space-between;
   align-items: center;
   gap: 20px;
-  background-color: #ced8e7;
+  background-color: var(--color-mariner-200);
   padding: 20px 40px;
   border-bottom-left-radius: 60px;
   border-bottom-right-radius: 60px;
@@ -37,9 +37,30 @@ nav h2 {
 .albums-header h1 {
   text-align: center;
   font-size: 45px;
-  color: black;
+  color: var(--color-mariner-950);
   margin-top: 20px;
   margin: 0;
+}
+
+.delete-all-button {
+  background-color: var(--color-danger);
+  border: 1px solid var(--color-danger);
+  color: var(--color-mariner-50);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.delete-all-button:hover:not(:disabled) {
+  background-color: var(--color-danger-hover);
+  color: var(--color-mariner-50);
+}
+
+.delete-all-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .album-list {
@@ -50,59 +71,59 @@ nav h2 {
 }
 
 .album-card {
-  border: 1px solid #ddd;
+  border: 1px solid var(--color-mariner-200);
   border-radius: 10px;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: var(--color-mariner-50);
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .album-card:hover {
   transform: translateY(1px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 6px 20px rgb(12 36 69 / 0.12);
 }
 
 .album-card h3 {
-  color: black;
+  color: var(--color-mariner-950);
   margin-top: 0;
 }
 
 .album-card p {
   padding: 10px 0;
-  color: black;
+  color: var(--color-mariner-950);
 }
 
 .album-open-button {
   display: inline-block;
   padding: 8px 15px;
-  background-color: #16a34a;
-  color: white;
+  background-color: var(--color-mariner-600);
+  color: var(--color-mariner-50);
   border-radius: 6px;
   text-decoration: none;
   margin-right: 10px;
 }
 
 .album-open-button:hover {
-  background-color: #15803d;
+  background-color: var(--color-mariner-700);
 }
 
 .edit-button {
   padding: 8px 15px;
-  background-color: #2563eb;
-  color: white;
+  background-color: var(--color-mariner-600);
+  color: var(--color-mariner-50);
   border: none;
   border-radius: 6px;
   cursor: pointer;
 }
 
 .edit-button:hover {
-  background-color: #1d4ed8;
+  background-color: var(--color-mariner-700);
 }
 
 .delete-button {
-  background-color: #dc2626;
-  color: white;
+  background-color: var(--color-danger);
+  color: var(--color-mariner-50);
   border: none;
   border-radius: 6px;
   padding: 8px 15px;
@@ -111,7 +132,7 @@ nav h2 {
 }
 
 .delete-button:hover {
-  background-color: #b91c1c;
+  background-color: var(--color-danger-hover);
 }
 
 
@@ -121,7 +142,7 @@ nav h2 {
   flex-direction: column;
   gap: 15px;
 
-  background-color: #ffffff;
+  background-color: var(--color-mariner-50);
   padding: 25px;
   border-radius: 12px;
 
@@ -129,13 +150,13 @@ nav h2 {
   width: 100%;
   margin: 20px auto;
 
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 15px rgb(12 36 69 / 0.08);
 }
 
 .album-form h2 {
   margin: 0 0 10px;
   font-size: 24px;
-  color: #1e293b;
+  color: var(--color-mariner-950);
 }
 
 .album-form input,
@@ -143,20 +164,20 @@ nav h2 {
   max-width: 100%;
   padding: 12px 15px;
 
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--color-mariner-200);
   border-radius: 8px;
 
   font-size: 15px;
   font-family: inherit;
-  background-color: #ffffff;
-  color: #1e293b;
+  background-color: var(--color-mariner-50);
+  color: var(--color-mariner-950);
   outline: none;
 }
 
 .album-form input:focus,
 .album-form textarea:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  border-color: var(--color-mariner-500);
+  box-shadow: 0 0 0 3px rgb(24 115 201 / 0.15);
 }
 
 .album-form textarea {
@@ -166,8 +187,8 @@ nav h2 {
 
 .album-form button {
   padding: 12px;
-  background-color: #2563eb;
-  color: white;
+  background-color: var(--color-mariner-600);
+  color: var(--color-mariner-50);
 
   border: none;
   border-radius: 8px;
@@ -180,7 +201,7 @@ nav h2 {
 }
 
 .album-form button:hover {
-  background-color: #1d4ed8;
+  background-color: var(--color-mariner-700);
 }
 
 .all-photos-section {
@@ -189,7 +210,7 @@ nav h2 {
 }
 
 .no-albums-message {
-    color: #64748b;
+    color: var(--color-mariner-800);
     text-align: center;
     padding: 30px 15px;
     font-size: 16px;

@@ -2,7 +2,7 @@
     position: fixed;
     inset: 0;
     z-index: 1300;
-    background: rgba(0, 0, 0, 0.65);
+    background: rgb(12 36 69 / 0.65);
 
     display: flex;
     justify-content: center;
@@ -13,10 +13,10 @@
 .photo-delete-modal {
     width: 100%;
     max-width: 400px;
-    background: white;
+    background: var(--color-mariner-50);
     border-radius: 12px;
     padding: 25px;
-    color: #1e293b;
+    color: var(--color-mariner-950);
 }
 
 .photo-delete-actions {
@@ -34,11 +34,14 @@
 }
 
 .confirm-photo-delete {
-    background: #dc2626;
-    color: white;
+    background: var(--color-danger);
+    color: var(--color-mariner-50);
 }
 
 .photo-delete-actions button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+}
+.confirm-photo-delete:hover:not(:disabled) {
+    background: var(--color-danger-hover);
 }

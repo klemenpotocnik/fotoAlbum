@@ -17,13 +17,9 @@ import org.springframework.core.io.UrlResource;
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.exif.ExifSubIFDDirectory;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 
 import java.io.IOException;
 import java.nio.file.*;
@@ -31,20 +27,24 @@ import java.util.*;
 
 
 @Service
+@Transactional
 public class PhotoService {
 
     private final PhotoRepository photoRepository;
     private final AlbumRepository albumRepository;
     private final Path uploadDirectory;
+    private final CurrentUser current;
 
     public PhotoService(
             PhotoRepository photoRepository,
             AlbumRepository albumRepository,
+            CurrentUser current,
             @Value("${app.upload-dir:uploads}") String uploadDir
     ) {
         this.photoRepository = photoRepository;
         this.albumRepository = albumRepository;
-        this.uploadDirectory = Path.of(uploadDir).toAbsolutePath();
+        this.current = current;
+        this.uploadDirectory = Path.of(uploadDir).toAbsolutePath().normalize();
     }
 
 
@@ -65,7 +65,7 @@ public class PhotoService {
     public PhotoResponse uploadPhoto(Long albumId, MultipartFile file) {
 
         // Preverimo, ali album obstaja
-        Album album = albumRepository.findById(albumId)
+        Album album = albumRepository.findByIdAndOwnerId(albumId, current.id())
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Album ne obstaja"
                 ));
@@ -100,7 +100,8 @@ public class PhotoService {
         try {
             Files.createDirectories(uploadDirectory);
 
-            // Shranimo fotografijo na disk
+            // Read EXIF before transferTo may move the temporary file.
+            LocalDateTime dateTaken = getDateTaken(file);
             file.transferTo(filePath);
 
             // Shranimo podatke v PostgreSQL
@@ -108,7 +109,7 @@ public class PhotoService {
             photo.setAlbum(album);
             photo.setFilename(file.getOriginalFilename());
             photo.setFilePath(storedFilename);
-            photo.setDateTaken(getDateTaken(file));
+            photo.setDateTaken(dateTaken);
 
             Photo savedPhoto = photoRepository.save(photo);
 
@@ -161,14 +162,14 @@ public class PhotoService {
 
     public List<PhotoResponse> getPhotosByAlbumId(Long albumId) {
 
-        if (!albumRepository.existsById(albumId)) {
+        if (!albumRepository.existsByIdAndOwnerId(albumId, current.id())) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
                     "Album ne obstaja"
             );
         }
 
-        return photoRepository.findByAlbumId(albumId)
+        return photoRepository.findByAlbumIdAndAlbumOwnerId(albumId, current.id())
                 .stream()
                 .map(this::toPhotoResponse)
                 .toList();
@@ -198,7 +199,7 @@ public class PhotoService {
 
     public Resource getPhotoFile(Long photoId) {
 
-        Photo photo = photoRepository.findById(photoId)
+        Photo photo = photoRepository.findByIdAndAlbumOwnerId(photoId, current.id())
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
                         "Fotografija ne obstaja"
@@ -241,7 +242,7 @@ public class PhotoService {
     public void deletePhoto(Long photoId) {
 
         // poišče fotografijo v podatkovni bazi
-        Photo photo = photoRepository.findById(photoId)
+        Photo photo = photoRepository.findByIdAndAlbumOwnerId(photoId, current.id())
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
                         "Fotografija ne obstaja"
@@ -276,14 +277,14 @@ public class PhotoService {
 
     public void deleteAllPhotosByAlbumId(Long albumId) {
 
-        if (!albumRepository.existsById(albumId)) {
+        if (!albumRepository.existsByIdAndOwnerId(albumId, current.id())) {
             throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND,
                     "Album ne obstaja"
             );
         }
 
-        List<Photo> photos = photoRepository.findByAlbumId(albumId);
+        List<Photo> photos = photoRepository.findByAlbumIdAndAlbumOwnerId(albumId, current.id());
 
         for (Photo photo : photos) {
             deletePhoto(photo.getId());
@@ -291,7 +292,7 @@ public class PhotoService {
     }
 
     public PhotoResponse getPhotoById(Long id) {
-        Photo photo = photoRepository.findById(id)
+        Photo photo = photoRepository.findByIdAndAlbumOwnerId(id, current.id())
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
                         "Fotografija ne obstaja"
@@ -301,7 +302,7 @@ public class PhotoService {
     }
 
     public List<PhotoResponse> getAllPhotos() {
-        return photoRepository.findAllByCreationDateDesc(false)
+        return photoRepository.findAllByCreationDateDesc(current.id(), false)
                 .stream()
                 .map(this::toPhotoResponse)
                 .toList();
@@ -313,7 +314,7 @@ public class PhotoService {
 
     public List<PhotoResponse> getAllPhotos(LocalDate startDate, LocalDate endDate, boolean favoritesOnly) {
         if (startDate == null && endDate == null) {
-            return photoRepository.findAllByCreationDateDesc(favoritesOnly)
+            return photoRepository.findAllByCreationDateDesc(current.id(), favoritesOnly)
                     .stream().map(this::toPhotoResponse).toList();
         }
         if (startDate == null || endDate == null || startDate.isAfter(endDate)
@@ -324,7 +325,7 @@ public class PhotoService {
 
         return photoRepository
                 .findByCreationDateRange(
-                        startDate.atStartOfDay(), endDate.plusDays(1).atStartOfDay(), favoritesOnly)
+                        current.id(), startDate.atStartOfDay(), endDate.plusDays(1).atStartOfDay(), favoritesOnly)
                 .stream()
                 .map(this::toPhotoResponse)
                 .toList();
@@ -332,7 +333,7 @@ public class PhotoService {
 
     @Transactional
     public PhotoResponse setFavorite(Long id, boolean favorite) {
-        Photo photo = photoRepository.findById(id)
+        Photo photo = photoRepository.findByIdAndAlbumOwnerId(id, current.id())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Fotografija ne obstaja"));
         photo.setFavorite(favorite);

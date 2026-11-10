@@ -9,21 +9,21 @@
     max-width: 200px;
     width: 100%;
     min-height: 120px;
-    background-color: #f8fafc;
+    background-color: var(--color-mariner-50);
 
-    border: 2px dashed #94a3b8;
+    border: 2px dashed var(--color-mariner-300);
     border-radius: 12px;
 
     cursor: pointer;
-    color: #475569;
+    color: var(--color-mariner-800);
     font-size: 16px;
     transition: 0.2s;
 }
 
 .add-album-card:hover {
-    background-color: #e0edff;
-    border-color: #2563eb;
-    color: #2563eb;
+    background-color: var(--color-mariner-100);
+    border-color: var(--color-mariner-600);
+    color: var(--color-mariner-600);
 }
 
 .add-album-icon {

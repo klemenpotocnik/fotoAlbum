@@ -1,102 +1,62 @@
-
 package fotoAlbum.fotoAlbum.controller;
 
+import fotoAlbum.fotoAlbum.dto.*;
 import fotoAlbum.fotoAlbum.model.Album;
 import fotoAlbum.fotoAlbum.repository.AlbumRepository;
-import fotoAlbum.fotoAlbum.service.PhotoService;
-
-import org.springframework.http.ResponseEntity;
+import fotoAlbum.fotoAlbum.service.*;
+import jakarta.validation.Valid;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/albums")
 public class AlbumController {
-
-    private final AlbumRepository albumRepository;
-    private final PhotoService photoService;
-
-    public AlbumController(
-            AlbumRepository albumRepository,
-            PhotoService photoService
-    ) {
-        this.albumRepository = albumRepository;
-        this.photoService = photoService;
+    private final AlbumRepository albums;
+    private final PhotoService photos;
+    private final CurrentUser current;
+    public AlbumController(AlbumRepository albums, PhotoService photos, CurrentUser current) {
+        this.albums = albums; this.photos = photos; this.current = current;
     }
-
-    // USTVARI ALBUM
+    private Album owned(Long id) {
+        return albums.findByIdAndOwnerId(id, current.id()).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "Album ni na voljo."));
+    }
     @PostMapping
-    public Album createAlbum(@RequestBody Album album) {
-        album.setId(null);
-        return albumRepository.save(album);
+    public AlbumResponse create(@Valid @RequestBody AlbumRequest request) {
+        Album album = new Album();
+        album.setTitle(request.title());
+        album.setDescription(request.description());
+        album.setOwner(current.get());
+        return AlbumResponse.from(albums.save(album));
     }
-
-    // PRIDOBI VSE ALBUME
     @GetMapping
-    public List<Album> getAllAlbums() {
-        return albumRepository.findAll();
+    public List<AlbumResponse> all() {
+        return albums.findByOwnerId(current.id()).stream().map(AlbumResponse::from).toList();
     }
-
-    // PRIDOBI POSAMEZEN ALBUM
     @GetMapping("/{id}")
-    public ResponseEntity<Album> getAlbumById(@PathVariable Long id) {
-        return albumRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    // POSODOBI ALBUM
+    public AlbumResponse one(@PathVariable Long id) { return AlbumResponse.from(owned(id)); }
     @PutMapping("/{id}")
-    public ResponseEntity<Album> updateAlbum(
-            @PathVariable Long id,
-            @RequestBody Album updatedAlbum) {
-
-        return albumRepository.findById(id)
-                .map(album -> {
-                    album.setTitle(updatedAlbum.getTitle());
-                    album.setDescription(updatedAlbum.getDescription());
-
-                    Album savedAlbum = albumRepository.save(album);
-                    return ResponseEntity.ok(savedAlbum);
-                })
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public AlbumResponse update(@PathVariable Long id, @Valid @RequestBody AlbumRequest request) {
+        Album album = owned(id);
+        album.setTitle(request.title());
+        album.setDescription(request.description());
+        return AlbumResponse.from(albums.save(album));
     }
-
-    // IZBRIŠI POSAMEZEN ALBUM
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAlbum(@PathVariable Long id) {
-
-        if (!albumRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-
-        // Najprej izbrišemo vse fotografije albuma
-        photoService.deleteAllPhotosByAlbumId(id);
-
-        // Nato izbrišemo še album
-        albumRepository.deleteById(id);
-
+    public ResponseEntity<String> delete(@PathVariable Long id) {
+        Album album = owned(id);
+        photos.deleteAllPhotosByAlbumId(id);
+        albums.delete(album);
         return ResponseEntity.ok("Album uspešno izbrisan");
     }
-
-    // IZBRIŠI VSE ALBUME
     @DeleteMapping("/all")
-    public ResponseEntity<String> deleteAllAlbums() {
-
-        List<Album> albums = albumRepository.findAll();
-
-        for (Album album : albums) {
-
-            // Izbrišemo vse fotografije posameznega albuma
-            photoService.deleteAllPhotosByAlbumId(album.getId());
-
-            // Izbrišemo album
-            albumRepository.delete(album);
+    public ResponseEntity<String> deleteAll() {
+        for (Album album : albums.findByOwnerId(current.id())) {
+            photos.deleteAllPhotosByAlbumId(album.getId());
+            albums.delete(album);
         }
-
-        return ResponseEntity.ok(
-                "Vsi albumi so bili uspešno izbrisani"
-        );
+        return ResponseEntity.ok("Vsi tvoji albumi so bili uspešno izbrisani");
     }
 }

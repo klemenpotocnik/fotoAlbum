@@ -3,7 +3,7 @@
     inset: 0;
     z-index: 1200;
 
-    background-color: rgba(0, 0, 0, 0.65);
+    background-color: rgb(12 36 69 / 0.65);
 
     display: flex;
     justify-content: center;
@@ -17,10 +17,10 @@
     max-height: 90vh;
     overflow-y: auto;
 
-    background-color: white;
+    background-color: var(--color-mariner-50);
     border-radius: 14px;
     padding: 25px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 40px rgb(12 36 69 / 0.2);
 }
 
 .photo-upload-header {
@@ -32,14 +32,14 @@
 
 .photo-upload-header h2 {
     margin: 0;
-    color: #1e293b;
+    color: var(--color-mariner-950);
 }
 
 .photo-upload-close {
     border: none;
     background: transparent;
     font-size: 28px;
-    color: #64748b;
+    color: var(--color-mariner-800);
     cursor: pointer;
 }
 
@@ -51,21 +51,21 @@
     gap: 10px;
 
     min-height: 140px;
-    border: 2px dashed #94a3b8;
+    border: 2px dashed var(--color-mariner-300);
     border-radius: 10px;
 
-    background-color: #f8fafc;
-    color: #334155;
+    background-color: var(--color-mariner-50);
+    color: var(--color-mariner-900);
     cursor: pointer;
 }
 
 .photo-upload-select:hover {
-    border-color: #2563eb;
-    background-color: #eff6ff;
+    border-color: var(--color-mariner-600);
+    background-color: var(--color-mariner-100);
 }
 
 .photo-upload-select small {
-    color: #64748b;
+    color: var(--color-mariner-800);
 }
 
 .photo-upload-select input {
@@ -99,8 +99,8 @@
     border: none;
     border-radius: 50%;
 
-    background-color: rgba(0, 0, 0, 0.65);
-    color: white;
+    background-color: var(--color-danger);
+    color: var(--color-mariner-50);
     cursor: pointer;
 }
 
@@ -119,8 +119,8 @@
 }
 
 .photo-upload-actions button:last-child {
-    background-color: #2563eb;
-    color: white;
+    background-color: var(--color-mariner-600);
+    color: var(--color-mariner-50);
 }
 
 .photo-upload-actions button:disabled {
@@ -129,5 +129,8 @@
 }
 
 .photo-upload-error {
-    color: #dc2626;
+    color: var(--color-mariner-900);
+}
+.photo-preview button:hover:not(:disabled) {
+    background: var(--color-danger-hover);
 }
