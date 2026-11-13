@@ -4,6 +4,11 @@
 
 Dokument opisuje namen sistema, uporabljene tehnologije, zgradbo kode ter postopek namestitve in zagona. Namenjen je uporabnikom, ki želijo projekt zagnati lokalno, in razvijalcem, ki ga želijo nadgrajevati.
 
+**Člani ekipe:**
+
+- Klemen Potočnik
+- Ivan Kretov
+
 ## 1 O projektu
 
 FotoAlbum je spletna aplikacija za organiziranje digitalnih fotografij v zasebne uporabniške albume. Cilj projekta je omogočiti enostavno ustvarjanje in urejanje albumov, nalaganje fotografij ter pregledovanje zbirke na enem mestu.
@@ -118,7 +123,7 @@ Controller sprejme zahtevo HTTP, service izvaja obdelavo fotografij, repository 
 
 Frontend ločuje prikaz v components in pages od omrežnih klicev v services. Slogi so v mapi oblika ter v App.css in index.css. Vite preusmeri razvojne zahteve /api na http://localhost:8080.
 
-Mape target, node_modules, dist in uploads so lokalno ustvarjene in jih .gitignore izključuje. Relativna pot uploads je odvisna od delovne mape backenda: ob zagonu iz backend je to backend/uploads.
+Mape target, node_modules, dist in uploads so lokalno ustvarjene in jih .gitignore izključuje. Privzeta mapa fotografij je `backend/uploads`, tako pri zagonu iz glavne mape projekta kot pri zagonu iz mape `backend`.
 
 ## 4 Navodila za nameščanje in zagon
 
@@ -310,3 +315,7 @@ Pri novih prispevkih uporabljaj naslednja pravila. Obstoječi ESLint preverja Ja
 ### 6.4 CSS in preverjanje kakovosti
 
 Uporabljaj opisna imena razredov CSS, ohrani povezavo sloga s komponento in preveri prikaz na različnih širinah zaslona. Obrazci naj imajo oznake, slike opisni alt, gumbi pa razumljiv namen. Pred oddajo izvedi preverjanja iz poglavja 5 in za novo poslovno logiko dodaj smiselne teste.
+
+## Dokumentacija
+
+- [Primeri uporabe](docs/primeri-uporabe.md)
