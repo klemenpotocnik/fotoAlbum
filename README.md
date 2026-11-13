@@ -43,6 +43,58 @@ Neprijavljen obiskovalec se preusmeri na `/login`. Na `/signup` ustvari račun, 
 
 Repozitorij: [klemenpotocnik/fotoAlbum](https://github.com/klemenpotocnik/fotoAlbum)
 
+## Vizija projekta
+
+### Opis rešitve
+
+FotoAlbum je spletna aplikacija za organizacijo osebnih fotografij.
+Namenjena je uporabnikom, ki želijo fotografije s potovanj, družinskih
+dogodkov in drugih priložnosti zbrati na enem mestu ter jih razporediti
+v pregledne albume.
+
+Z aplikacijo želimo olajšati shranjevanje, pregledovanje in iskanje
+fotografij. Vsak uporabnik ima svoj račun in zasebno zbirko albumov.
+Albume lahko razvrsti po kategorijah, fotografije pa označi kot
+priljubljene in jih filtrira po datumu nastanka. Tako lažje najde
+želene fotografije tudi v večji zbirki.
+
+### Ključne funkcionalnosti
+
+- Registracija, prijava in odjava uporabnika.
+- Ustvarjanje, pregledovanje, urejanje in brisanje albumov.
+- Nalaganje fotografij JPG in PNG v izbrani album.
+- Pregled fotografij in njihovih podrobnosti.
+- Označevanje fotografij kot priljubljenih in prikaz priljubljenih.
+- Filtriranje fotografij po datumu nastanka.
+- Brisanje posameznih fotografij ali vseh fotografij albuma.
+- Izbira kategorije albuma iz pripravljenega seznama.
+- Dodajanje lastne kategorije prek možnosti Drugo, ki se shrani
+  za uporabo pri drugih uporabnikovih albumih.
+- Filtriranje albumov po kategoriji.
+
+### Obseg rešitve in morebitne omejitve
+
+Aplikacija je namenjena osebni uporabi prek spletnega brskalnika.
+Vsak uporabnik lahko dostopa samo do svojih albumov in fotografij
+ter kategorij, povezanih s svojim računom. Javno deljenje albumov,
+skupno urejanje, obdelava fotografij in nalaganje videoposnetkov
+niso vključeni v obseg trenutne rešitve.
+
+Album ima lahko eno kategorijo ali pa ostane brez nje. Na voljo so
+kategorije Potovanja, Družina, Prijatelji, Dogodki, Narava, Šport,
+Vsakdan in Drugo. Pri izbiri Drugo uporabnik vpiše lastno kategorijo,
+ki je nato na voljo tudi pri njegovih drugih albumih. Ime kategorije
+je omejeno na 100 znakov.
+
+Podprte so fotografije JPG in PNG. Posamezna fotografija je lahko
+velika največ 10 MB, celotna zahteva za nalaganje pa največ 100 MB.
+Filtriranje po datumu nastanka je odvisno od metapodatkov fotografije.
+Fotografije brez prepoznanega datuma nastanka niso vključene
+v rezultate datumskega filtra.
+
+Za delovanje morajo biti dosegljivi strežniški del aplikacije,
+podatkovna baza in mapa s shranjenimi fotografijami.
+
 ## 2 Uporabljene tehnologije
 
 Različice frontenda so povzete iz package-lock.json. Datoteka package.json določa dovoljene razpone; npm ci namesti zaklenjene različice. Različice backenda določa pom.xml in upravljanje odvisnosti Spring Boot 4.1.1.
