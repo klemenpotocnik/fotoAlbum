@@ -44,7 +44,12 @@ public class PhotoService {
         this.photoRepository = photoRepository;
         this.albumRepository = albumRepository;
         this.current = current;
-        this.uploadDirectory = Path.of(uploadDir).toAbsolutePath().normalize();
+        Path uploadPath = Path.of(uploadDir);
+        // IntelliJ can start in the repository root, Maven in the backend directory.
+        if (uploadDir.equals("uploads") && Files.isRegularFile(Path.of("backend", "pom.xml"))) {
+            uploadPath = Path.of("backend", "uploads");
+        }
+        this.uploadDirectory = uploadPath.toAbsolutePath().normalize();
     }
 
 
