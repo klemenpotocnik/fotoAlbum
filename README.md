@@ -40,6 +40,8 @@ Neprijavljen obiskovalec se preusmeri na `/login`. Na `/signup` ustvari račun, 
 - [4 Navodila za nameščanje in zagon](#4-navodila-za-nameščanje-in-zagon)
 - [5 Navodila za razvijalce](#5-navodila-za-razvijalce)
 - [6 Standardi kodiranja](#6-standardi-kodiranja)
+- [7 Besednjak](#7-besednjak)
+- [Dokumentacija](#dokumentacija)
 
 Repozitorij: [klemenpotocnik/fotoAlbum](https://github.com/klemenpotocnik/fotoAlbum)
 
@@ -367,6 +369,27 @@ Pri novih prispevkih uporabljaj naslednja pravila. Obstoječi ESLint preverja Ja
 ### 6.4 CSS in preverjanje kakovosti
 
 Uporabljaj opisna imena razredov CSS, ohrani povezavo sloga s komponento in preveri prikaz na različnih širinah zaslona. Obrazci naj imajo oznake, slike opisni alt, gumbi pa razumljiv namen. Pred oddajo izvedi preverjanja iz poglavja 5 in za novo poslovno logiko dodaj smiselne teste.
+
+## 7 Besednjak
+
+Besednjak pojasnjuje izraze, ki jih uporabljamo pri organiziranju in pregledovanju fotografij v aplikaciji fotoAlbum.
+
+| Izraz | Razlaga |
+| --- | --- |
+| **Album** | Skupina fotografij, ki jih uporabnik zbere pod skupnim naslovom, na primer »Poletje 2026«. Album ima lahko opis in kategorijo. |
+| **Fotografija** | Slika, ki jo uporabnik naloži v izbrani album. Poleg slike so na voljo podatki o njenem imenu, datumu nalaganja, morebitnem datumu nastanka in priljubljenosti. |
+| **Zasebna zbirka** | Vsi albumi in fotografije posameznega uporabnika. Do njih lahko dostopa in jih ureja samo njihov lastnik. |
+| **Lastnik albuma** | Uporabnik, ki je ustvaril album. Album in fotografije v njem pripadajo njegovi zasebni zbirki. |
+| **Kategorija albuma** | Tematska oznaka za razvrščanje albumov, na primer »Potovanja«, »Družina« ali »Narava«. Album ima lahko eno kategorijo ali ostane brez nje. |
+| **Lastna kategorija** | Kategorija, ki jo uporabnik poimenuje sam prek možnosti »Drugo«. Po shranjevanju jo lahko izbere tudi pri drugih svojih albumih. |
+| **Brez kategorije** | Oznaka za album, ki mu uporabnik ni dodelil kategorije. Takšne albume lahko prikaže z istoimenskim filtrom. |
+| **Priljubljena fotografija** | Fotografija, ki jo uporabnik označi z zvezdico, da jo lažje najde. Prikaže lahko samo priljubljene fotografije, ne da bi jih prestavljal v drug album. |
+| **Galerija fotografij** | Pregled fotografij v obliki mreže sličic. Omogoča ogled zbirke in izbiro posamezne fotografije za prikaz podrobnosti. |
+| **Metapodatki fotografije** | Dodatni podatki, zapisani v slikovni datoteki. Aplikacija iz njih poskuša prebrati datum nastanka fotografije. |
+| **Datum nastanka fotografije** | Datum in čas, ko je bila fotografija posneta. Podatek aplikacija prebere iz datoteke, če je v njej na voljo. |
+| **Datum nalaganja fotografije** | Datum in čas, ko je uporabnik fotografijo dodal v aplikacijo. Lahko se razlikuje od datuma, ko je bila posneta. |
+| **Datum ustvarjanja albuma** | Datum, ko je uporabnik ustvaril album v aplikaciji. Ne določa, kdaj so bile posnete fotografije v njem. |
+| **Filtriranje fotografij po datumu** | Prikaz fotografij, katerih datum nastanka je v izbranem obdobju, vključno z začetnim in končnim dnem. Fotografije brez znanega datuma nastanka se pri tem ne prikažejo. |
 
 ## Dokumentacija
 
