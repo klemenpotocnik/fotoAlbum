@@ -97,6 +97,43 @@ v rezultate datumskega filtra.
 Za delovanje morajo biti dosegljivi strežniški del aplikacije,
 podatkovna baza in mapa s shranjenimi fotografijami.
 
+## Diagram primerov uporabe
+
+Diagram prikazuje ciljno stanje aplikacije fotoAlbum z uporabniškimi računi, zasebno zbirko fotografij in nadgradnjo kategorij. Vsebuje 10 primerov uporabe, 3 akterje, povezavo include, dve povezavi extend in generalizacijo akterjev.
+
+![Diagram primerov uporabe fotoAlbum](docs/diagram-primerov-uporabe.svg)
+
+### Akterji in generalizacija
+
+Splošni akter **Uporabnik** je abstrakten in predstavlja skupno poimenovanje uporabniških vlog. Njegovi specializaciji sta **Neprijavljen obiskovalec** in **Prijavljen uporabnik**. Generalizacija je prikazana s polno črto in praznim trikotnikom, usmerjenim proti splošnemu akterju. Gre za vloge pri uporabi aplikacije, ne za dedovanje razredov v programski kodi. Vlogi ne dedujeta pravic druga od druge.
+
+Neprijavljen obiskovalec lahko ustvari račun oziroma se prijavi z obstoječim računom. Prijavljen uporabnik upravlja svojo zasebno zbirko. Administrator in javno pregledovanje tujih albumov nista vključena, saj ju trenutni projekt ne podpira.
+
+### Primeri uporabe
+
+| ID | Primer uporabe | Obseg |
+| --- | --- | --- |
+| PU-01 | Registracija uporabnika | Ustvarjanje uporabniškega računa. |
+| PU-02 | Prijava uporabnika | Preverjanje prijavnih podatkov in vzpostavitev seje. |
+| PU-03 | Razvrščanje albumov po kategorijah | Dodelitev kategorije pri ustvarjanju ali urejanju albuma ter filtriranje albumov. |
+| PU-04 | Upravljanje lastnih albumov | Ustvarjanje, pregledovanje, urejanje in brisanje lastnih albumov. |
+| PU-05 | Nalaganje fotografij | Nalaganje ene ali več fotografij v lasten album. |
+| PU-06 | Preverjanje ustreznosti fotografije | Obvezno preverjanje prazne datoteke in dovoljenega tipa; velikost omejuje nastavitev nalaganja. |
+| PU-07 | Pregled fotografij | Galerija, podrobnosti, datumski filter in prikaz samo priljubljenih fotografij. |
+| PU-08 | Označevanje fotografij kot priljubljenih | Dodajanje ali odstranjevanje oznake priljubljenosti. |
+| PU-09 | Brisanje fotografij | Brisanje posamezne fotografije ali vseh fotografij lastnega albuma. |
+| PU-10 | Dodajanje lastne kategorije | Vnos imena prek možnosti Drugo in shranjevanje za ponovno uporabo. |
+
+PU-01, PU-02 in PU-03 so usklajeni z obstoječimi [podrobnimi opisi primerov uporabe](docs/primeri-uporabe.md). Ustvarjanje, urejanje in brisanje albumov so zaradi omejitve na 10 primerov združeni v PU-04. Pregled fotografij zajema tudi njegove filtre; posebni primeri ostajajo nalaganje, označevanje in brisanje.
+
+### Povezave include in extend
+
+- **PU-05 include PU-06:** preverjanje ustreznosti je obvezen del nalaganja. Puščica kaže od nalaganja proti preverjanju.
+- **PU-08 extend PU-07:** uporabnik lahko med pregledovanjem fotografij izbirno označi fotografijo kot priljubljeno ali odstrani oznako. Razširitvena točka je prikaz fotografije, pogoj pa uporabnikova izbira oznake. Puščica kaže od označevanja proti pregledu.
+- **PU-10 extend PU-03:** uporabnik lahko pri izbiri kategorije albuma izbere Drugo in vnese lastno ime. Razširitvena točka je izbira kategorije pri ustvarjanju ali urejanju albuma, pogoj pa izbira Drugo. Nova kategorija ostane na voljo pri drugih njegovih albumih. Puščica kaže od dodajanja lastne kategorije proti razvrščanju.
+
+Prijava je predpogoj za delo z zasebno zbirko, zato ni narisana kot include vsakega zasebnega primera uporabe. Fotografije se lahko pregledujejo tudi brez označevanja priljubljenosti, album pa lahko ostane brez kategorije.
+
 ## 2 Uporabljene tehnologije
 
 Različice frontenda so povzete iz package-lock.json. Datoteka package.json določa dovoljene razpone; npm ci namesti zaklenjene različice. Različice backenda določa pom.xml in upravljanje odvisnosti Spring Boot 4.1.1.
