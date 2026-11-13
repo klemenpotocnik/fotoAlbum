@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { categoryLabel } from '../albumCategories';
 import { useParams, Link } from 'react-router';
 import { getAlbumById } from '../services/albumService';
 import { getPhotosByAlbumId, uploadPhotos, deletePhoto, deleteAllPhotos } from '../services/photoService';
@@ -168,6 +169,7 @@ function AlbumDetailsContent({ id }) {
             <h1>{album.title}</h1>
 
             <p>{album.description}</p>
+            <p>Kategorija: {categoryLabel(album.category)}</p>
 
             <p>
                 Datum ustvarjanja: {album.createdAt}
@@ -252,3 +254,4 @@ function AlbumDetailsContent({ id }) {
 }
 
 export default AlbumDetails;
+

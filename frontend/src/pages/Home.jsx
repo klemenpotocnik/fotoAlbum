@@ -1,5 +1,8 @@
 
 import { useEffect, useState } from 'react';
+import { filterAlbums } from '../albumCategories';
+import { getCategories } from '../services/categoryService';
+import '../oblika/AlbumCategories.css';
 import AlbumList from '../components/AlbumList';
 import {
     getAlbums,
@@ -16,6 +19,9 @@ import AllPhotos from '../components/AllPhotos';
 
 function Home() {
     const [albums, setAlbums] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [categoryFilter, setCategoryFilter] = useState('all');
+    const visibleAlbums = filterAlbums(albums, categoryFilter);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
@@ -32,8 +38,9 @@ function Home() {
     useEffect(() => {
         const loadAlbums = async () => {
             try {
-                const data = await getAlbums();
+                const [data, categoryData] = await Promise.all([getAlbums(), getCategories()]);
                 setAlbums(data);
+                setCategories(categoryData);
             } catch (error) {
                 setError(error.message);
             } finally {
@@ -44,11 +51,18 @@ function Home() {
         loadAlbums();
     }, []);
 
+    const rememberCategory = category => {
+        if (!category) return;
+        setCategories(previous => previous.some(existing => existing.id === category.id)
+            ? previous : [...previous, category]);
+    };
+
     const handleCreateAlbum = async (album) => {
         try {
             const newAlbum = await createAlbum(album);
 
             setAlbums(prevAlbums => [...prevAlbums, newAlbum]);
+            rememberCategory(newAlbum.category);
 
             setIsModalOpen(false);
         } catch (error) {
@@ -72,6 +86,7 @@ function Home() {
                 )
             );
 
+            rememberCategory(updatedAlbum.category);
             setIsModalOpen(false);
             setSelectedAlbum(null);
         } catch (error) {
@@ -150,6 +165,17 @@ function Home() {
                 </button>
             </div>
 
+            <div className="category-filter">
+                <label htmlFor="category-filter">Prikaži kategorijo</label>
+                <select id="category-filter" value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)} disabled={loading}>
+                    <option value="all">Vse kategorije</option>
+                    <option value="uncategorized">Brez kategorije</option>
+                    {categories.map(category => (
+                        <option key={category.id} value={category.id}>{category.name}</option>
+                    ))}
+                </select>
+            </div>
+
             {loading && <p>Nalaganje albumov...</p>}
 
             {error && <p role="alert">{error}</p>}
@@ -162,9 +188,11 @@ function Home() {
                         <p className="no-albums-message">
                             Trenutno še nimaš nobenega albuma.
                         </p>
+                    ) : visibleAlbums.length === 0 ? (
+                        <p>V izbrani kategoriji ni albumov.</p>
                     ) : (
                         <AlbumList
-                            albums={albums}
+                            albums={visibleAlbums}
                             onEdit={handleOpenEdit}
                             onDelete={setAlbumToDelete}
                         />
@@ -181,6 +209,7 @@ function Home() {
                     <AlbumForm
                         key={selectedAlbum?.id ?? 'new'}
                         album={selectedAlbum}
+                        categories={categories}
                         onSubmit={
                             selectedAlbum
                                 ? handleUpdateAlbum
@@ -212,3 +241,4 @@ function Home() {
 }
 
 export default Home;
+

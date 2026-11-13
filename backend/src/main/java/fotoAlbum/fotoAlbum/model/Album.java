@@ -29,6 +29,12 @@ public class Album {
     @Column(nullable = false)
     private String title;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     @Column(columnDefinition = "TEXT")
     private String description;
 
@@ -49,3 +55,4 @@ public class Album {
         }
     }
 }
+

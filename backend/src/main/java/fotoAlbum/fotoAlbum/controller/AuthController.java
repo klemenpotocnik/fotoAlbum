@@ -4,6 +4,8 @@ import fotoAlbum.fotoAlbum.dto.*;
 import fotoAlbum.fotoAlbum.model.AppUser;
 import fotoAlbum.fotoAlbum.repository.UserRepository;
 import fotoAlbum.fotoAlbum.service.CurrentUser;
+import fotoAlbum.fotoAlbum.service.DefaultCategories;
+import org.springframework.transaction.annotation.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.*;
@@ -20,9 +22,11 @@ public class AuthController {
     private final UserRepository users;
     private final PasswordEncoder encoder;
     private final CurrentUser current;
+    private final DefaultCategories categories;
 
-    public AuthController(UserRepository users, PasswordEncoder encoder, CurrentUser current) {
+    public AuthController(UserRepository users, PasswordEncoder encoder, CurrentUser current, DefaultCategories categories) {
         this.users = users; this.encoder = encoder; this.current = current;
+        this.categories = categories;
     }
 
     @GetMapping("/csrf")
@@ -34,6 +38,7 @@ public class AuthController {
     public UserResponse me() { return UserResponse.from(current.get()); }
 
     @PostMapping("/signup")
+    @Transactional
     public ResponseEntity<UserResponse> signup(@Valid @RequestBody SignupRequest request) {
         if (request.password().getBytes(StandardCharsets.UTF_8).length > 72) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Geslo je predolgo.");
@@ -44,13 +49,16 @@ public class AuthController {
         user.setEmail(email);
         user.setPasswordHash(encoder.encode(request.password()));
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(UserResponse.from(users.saveAndFlush(user)));
+            user = users.saveAndFlush(user);
         } catch (DataIntegrityViolationException ex) {
             throw duplicateEmail();
         }
+        categories.createFor(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(UserResponse.from(user));
     }
 
     private ResponseStatusException duplicateEmail() {
         return new ResponseStatusException(HttpStatus.CONFLICT, "Račun s tem e-poštnim naslovom že obstaja.");
     }
 }
+
