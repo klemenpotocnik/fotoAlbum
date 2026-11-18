@@ -1,12 +1,33 @@
 
 import { useEffect, useState } from 'react';
-import { getPhotoById } from '../services/photoService';
+import { getPhotoById, updatePhotoDetails } from '../services/photoService';
+import PhotoDetailsForm from './photos/PhotoDetailsForm';
 import '../oblika/PhotoDetailsModal.css';
 
-function PhotoDetailsModal({ photoId, onClose }) {
+function PhotoDetailsModal({ photoId, onClose, onPhotoChange }) {
     const [photo, setPhoto] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [editing, setEditing] = useState(false);
+    const [saving, setSaving] = useState(false);
+    const [saved, setSaved] = useState(false);
+
+    async function saveDetails(details) {
+        if (saving) return;
+        setSaving(true);
+        setError('');
+        try {
+            const updatedPhoto = await updatePhotoDetails(photoId, details);
+            setPhoto(updatedPhoto);
+            onPhotoChange?.(updatedPhoto);
+            setEditing(false);
+            setSaved(true);
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setSaving(false);
+        }
+    }
 
     useEffect(() => {
         let active = true;
@@ -48,7 +69,7 @@ function PhotoDetailsModal({ photoId, onClose }) {
                         Podrobnosti fotografije
                     </h2>
 
-                    <button onClick={onClose} aria-label="Zapri">
+                    <button onClick={onClose} disabled={saving} aria-label="Zapri">
                         ×
                     </button>
                 </div>
@@ -56,11 +77,24 @@ function PhotoDetailsModal({ photoId, onClose }) {
                 {loading && <p>Nalaganje podatkov...</p>}
 
                 {error && <p role="alert">{error}</p>}
+                {saved && <p role="status">Podatki fotografije so shranjeni.</p>}
 
                 {!loading && photo && (
                     <div className="photo-details-content">
+                        {editing ? (
+                            <PhotoDetailsForm photo={photo} saving={saving} onSave={saveDetails}
+                                onCancel={() => { setEditing(false); setError(''); }} />
+                        ) : (
+                            <>
+                                <p><strong>Naslov:</strong> {photo.title || photo.filename}</p>
+                                <p className="photo-description"><strong>Opis:</strong> {photo.description || 'Ni opisa'}</p>
+                                <button className="photo-details-edit" onClick={() => {
+                                    setEditing(true); setSaved(false); setError('');
+                                }}>Uredi podatke</button>
+                            </>
+                        )}
                         <p>
-                            <strong>Ime fotografije:</strong> {photo.filename}
+                            <strong>Ime datoteke:</strong> {photo.filename}
                         </p>
 
                         <p>

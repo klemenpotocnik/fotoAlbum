@@ -2,6 +2,7 @@ package fotoAlbum.fotoAlbum.controller;
 
 import fotoAlbum.fotoAlbum.dto.PhotoResponse;
 import fotoAlbum.fotoAlbum.dto.PhotoFavoriteRequest;
+import fotoAlbum.fotoAlbum.dto.PhotoDetailsRequest;
 import jakarta.validation.Valid;
 import fotoAlbum.fotoAlbum.service.PhotoService;
 
@@ -71,6 +72,13 @@ public class PhotoFileController {
         List<PhotoResponse> photos = photoService.getAllPhotos(startDate, endDate, favoritesOnly);
 
         return ResponseEntity.ok(photos);
+    }
+
+    @Operation(summary = "Posodobi naslov in opis fotografije")
+    @PutMapping("/{id}")
+    public ResponseEntity<PhotoResponse> updateDetails(
+            @PathVariable Long id, @RequestBody PhotoDetailsRequest request) {
+        return ResponseEntity.ok(photoService.updateDetails(id, request));
     }
 
     @Operation(summary = "Označi ali odstrani fotografijo iz priljubljenih")

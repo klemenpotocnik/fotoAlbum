@@ -20,6 +20,7 @@ FotoAlbum je spletna aplikacija za organiziranje digitalnih fotografij v zasebne
 - Ustvarjanje, pregled, urejanje in brisanje albumov.
 - Nalaganje ene ali več fotografij JPG oziroma PNG v izbrani album.
 - Pregled vseh fotografij ali fotografij posameznega albuma ter prikaz podrobnosti.
+- Dodajanje, urejanje in odstranjevanje naslova ter opisa fotografije.
 - Označevanje fotografij kot priljubljenih in prikaz samo priljubljenih.
 - Filtriranje fotografij po obdobju nastanka in branje datuma iz metapodatkov EXIF.
 - Brisanje posameznih fotografij, vseh fotografij albuma ali vseh albumov.
@@ -35,6 +36,9 @@ Neprijavljen obiskovalec se preusmeri na `/login`. Na `/signup` ustvari račun, 
 ### Kazalo
 
 - [1 O projektu](#1-o-projektu)
+- [Vizija projekta](#vizija-projekta)
+- [Diagram primerov uporabe](#diagram-primerov-uporabe)
+- [Primeri uporabe](#primeri-uporabe)
 - [2 Uporabljene tehnologije](#2-uporabljene-tehnologije)
 - [3 Struktura projekta](#3-struktura-projekta)
 - [4 Navodila za nameščanje in zagon](#4-navodila-za-nameščanje-in-zagon)
@@ -50,9 +54,11 @@ Repozitorij: [klemenpotocnik/fotoAlbum](https://github.com/klemenpotocnik/fotoAl
 ### Opis rešitve
 
 FotoAlbum je spletna aplikacija za organizacijo osebnih fotografij.
-Namenjena je uporabnikom, ki želijo fotografije s potovanj, družinskih
-dogodkov in drugih priložnosti zbrati na enem mestu ter jih razporediti
-v pregledne albume.
+Namenjena je ljubiteljskim popotnikom, ki fotografije organizirajo po
+posameznih izletih, ter posameznikom, ki urejajo zasebni družinski arhiv
+praznovanj in drugih dogodkov. Obe skupini potrebujeta pregled po
+dogodkih, temah in datumih, da lahko pozneje najdeta fotografije
+določenega potovanja ali družinskega srečanja.
 
 Z aplikacijo želimo olajšati shranjevanje, pregledovanje in iskanje
 fotografij. Vsak uporabnik ima svoj račun in zasebno zbirko albumov.
@@ -66,6 +72,7 @@ priljubljene in jih filtrira po datumu nastanka. Tako lažje najde
 - Ustvarjanje, pregledovanje, urejanje in brisanje albumov.
 - Nalaganje fotografij JPG in PNG v izbrani album.
 - Pregled fotografij in njihovih podrobnosti.
+- Dodajanje in urejanje neobveznega naslova ter opisa fotografije v njenih podrobnostih.
 - Označevanje fotografij kot priljubljenih in prikaz priljubljenih.
 - Filtriranje fotografij po datumu nastanka.
 - Brisanje posameznih fotografij ali vseh fotografij albuma.
@@ -73,6 +80,10 @@ priljubljene in jih filtrira po datumu nastanka. Tako lažje najde
 - Dodajanje lastne kategorije prek možnosti Drugo, ki se shrani
   za uporabo pri drugih uporabnikovih albumih.
 - Filtriranje albumov po kategoriji.
+
+### Načrtovane funkcionalnosti
+
+- Iskanje fotografij v zasebni zbirki po delu naslova ali opisa, tudi skupaj z datumskim filtrom in filtrom priljubljenih.
 
 ### Obseg rešitve in morebitne omejitve
 
@@ -94,45 +105,49 @@ Filtriranje po datumu nastanka je odvisno od metapodatkov fotografije.
 Fotografije brez prepoznanega datuma nastanka niso vključene
 v rezultate datumskega filtra.
 
-Za delovanje morajo biti dosegljivi strežniški del aplikacije,
-podatkovna baza in mapa s shranjenimi fotografijami.
+Fotografija ima lahko naslov z največ 100 znaki in opis z največ 2000 znaki.
+Oba podatka sta neobvezna. Prazna vrednost odstrani podatek; pri fotografiji
+brez naslova se prikaže izvirno ime datoteke. Urejanje naslova in opisa
+ne spremeni slikovne datoteke ali njenega izvirnega imena.
 
 ## Diagram primerov uporabe
 
-Diagram prikazuje ciljno stanje aplikacije fotoAlbum z uporabniškimi računi, zasebno zbirko fotografij in nadgradnjo kategorij. Vsebuje 10 primerov uporabe, 3 akterje, povezavo include, dve povezavi extend in generalizacijo akterjev.
+Diagram prikazuje registracijo, prijavo ter delo z zasebno zbirko albumov in fotografij.
 
 ![Diagram primerov uporabe fotoAlbum](docs/diagram-primerov-uporabe.svg)
 
-### Akterji in generalizacija
+## Primeri uporabe
 
-Splošni akter **Uporabnik** je abstrakten in predstavlja skupno poimenovanje uporabniških vlog. Njegovi specializaciji sta **Neprijavljen obiskovalec** in **Prijavljen uporabnik**. Generalizacija je prikazana s polno črto in praznim trikotnikom, usmerjenim proti splošnemu akterju. Gre za vloge pri uporabi aplikacije, ne za dedovanje razredov v programski kodi. Vlogi ne dedujeta pravic druga od druge.
+Primeri uporabe opisujejo dostop do zasebne zbirke ter organiziranje,
+pregledovanje in odstranjevanje albumov in fotografij.
 
-Neprijavljen obiskovalec lahko ustvari račun oziroma se prijavi z obstoječim računom. Prijavljen uporabnik upravlja svojo zasebno zbirko. Administrator in javno pregledovanje tujih albumov nista vključena, saj ju trenutni projekt ne podpira.
+### Akterji
 
-### Primeri uporabe
+**Neprijavljen obiskovalec** lahko ustvari račun ali se prijavi z obstoječim računom.
+**Prijavljen uporabnik** upravlja svoje albume, kategorije in fotografije ter se lahko odjavi.
+
+### Pregled primerov uporabe
 
 | ID | Primer uporabe | Obseg |
 | --- | --- | --- |
 | PU-01 | Registracija uporabnika | Ustvarjanje uporabniškega računa. |
-| PU-02 | Prijava uporabnika | Preverjanje prijavnih podatkov in vzpostavitev seje. |
-| PU-03 | Razvrščanje albumov po kategorijah | Dodelitev kategorije pri ustvarjanju ali urejanju albuma ter filtriranje albumov. |
+| PU-02 | Prijava uporabnika | Prijava v zasebno zbirko. |
+| PU-03 | Razvrščanje albumov po kategorijah | Dodelitev, sprememba ali odstranitev kategorije obstoječega albuma. |
 | PU-04 | Upravljanje lastnih albumov | Ustvarjanje, pregledovanje, urejanje in brisanje lastnih albumov. |
-| PU-05 | Nalaganje fotografij | Nalaganje ene ali več fotografij v lasten album. |
-| PU-06 | Preverjanje ustreznosti fotografije | Obvezno preverjanje prazne datoteke in dovoljenega tipa; velikost omejuje nastavitev nalaganja. |
-| PU-07 | Pregled fotografij | Galerija, podrobnosti, datumski filter in prikaz samo priljubljenih fotografij. |
-| PU-08 | Označevanje fotografij kot priljubljenih | Dodajanje ali odstranjevanje oznake priljubljenosti. |
+| PU-05 | Nalaganje fotografij | Dodajanje ene ali več fotografij v lasten album. |
+| PU-06 | Preverjanje ustreznosti fotografije | Preverjanje dovoljenega tipa, velikosti in nepraznosti izbranih datotek. |
+| PU-07 | Pregled fotografij | Pregled galerije in podrobnosti fotografij. |
+| PU-08 | Označevanje fotografij kot priljubljenih | Dodajanje ali odstranjevanje oznake ter prikaz priljubljenih. |
 | PU-09 | Brisanje fotografij | Brisanje posamezne fotografije ali vseh fotografij lastnega albuma. |
-| PU-10 | Dodajanje lastne kategorije | Vnos imena prek možnosti Drugo in shranjevanje za ponovno uporabo. |
+| PU-10 | Dodajanje lastne kategorije | Vnos lastnega imena kategorije in ponovna uporaba pri drugih albumih. |
+| PU-11 | Filtriranje albumov po kategoriji | Prikaz albumov izbrane kategorije ali albumov brez kategorije. |
+| PU-12 | Filtriranje fotografij po datumu nastanka | Prikaz fotografij iz izbranega obdobja. |
+| PU-13 | Odjava uporabnika | Zaključek prijavne seje in vrnitev na prijavno stran. |
+| PU-14 | Dodajanje in urejanje naslova ter opisa fotografije | Shranjevanje, spreminjanje ali odstranjevanje naslova in opisa. |
+| PU-15 | Iskanje fotografij po naslovu in opisu | Iskanje po besedilu v naslovu ali opisu z upoštevanjem filtrov. Načrtovano. |
 
-PU-01, PU-02 in PU-03 so usklajeni z obstoječimi [podrobnimi opisi primerov uporabe](docs/primeri-uporabe.md). Ustvarjanje, urejanje in brisanje albumov so zaradi omejitve na 10 primerov združeni v PU-04. Pregled fotografij zajema tudi njegove filtre; posebni primeri ostajajo nalaganje, označevanje in brisanje.
-
-### Povezave include in extend
-
-- **PU-05 include PU-06:** preverjanje ustreznosti je obvezen del nalaganja. Puščica kaže od nalaganja proti preverjanju.
-- **PU-08 extend PU-07:** uporabnik lahko med pregledovanjem fotografij izbirno označi fotografijo kot priljubljeno ali odstrani oznako. Razširitvena točka je prikaz fotografije, pogoj pa uporabnikova izbira oznake. Puščica kaže od označevanja proti pregledu.
-- **PU-10 extend PU-03:** uporabnik lahko pri izbiri kategorije albuma izbere Drugo in vnese lastno ime. Razširitvena točka je izbira kategorije pri ustvarjanju ali urejanju albuma, pogoj pa izbira Drugo. Nova kategorija ostane na voljo pri drugih njegovih albumih. Puščica kaže od dodajanja lastne kategorije proti razvrščanju.
-
-Prijava je predpogoj za delo z zasebno zbirko, zato ni narisana kot include vsakega zasebnega primera uporabe. Fotografije se lahko pregledujejo tudi brez označevanja priljubljenosti, album pa lahko ostane brez kategorije.
+[Podrobni opisi primerov uporabe](docs/primeri-uporabe.md) vsebujejo predpogoje,
+scenarije, alternativne tokove in izjeme za vse navedene primere.
 
 ## 2 Uporabljene tehnologije
 
@@ -254,7 +269,9 @@ Geslo v primeru zamenjaj z lastnim. Če baza ali račun že obstajata, uporabi n
 
 Pred prvim zagonom aplikacije ustvari bazo `fotoalbum`, kot je prikazano zgoraj, in vanjo dodaj pripravljeno shemo iz datoteke [`backend/database/001_accounts.sql`](backend/database/001_accounts.sql).
 
-V pgAdmin izberi bazo `fotoalbum` in odpri **Query Tool**. Vanj kopiraj celotno vsebino datoteke `001_accounts.sql` ter jo izvedi z gumbom **Execute** ali tipko **F5**. S tem ustvariš tabele za uporabnike, albume in fotografije ter povezave med njimi. Nato lahko zaženeš backend.
+V pgAdmin izberi bazo `fotoalbum` in odpri **Query Tool**. Pri novi bazi po vrsti izvedi datoteke `001_accounts.sql`, `002_album_categories.sql`, `003_predefined_categories.sql`, `004_custom_categories.sql` in `005_photo_details.sql` iz mape `backend/database`. S tem pripraviš uporabnike, albume, kategorije in fotografije, vključno s poljema za naslov ter opis.
+
+Pri nadgradnji obstoječe baze, v kateri so migracije 001–004 že izvedene, izvedi samo [`005_photo_details.sql`](backend/database/005_photo_details.sql). Ta doda neobvezni polji brez spreminjanja obstoječih fotografij. Backend preverja shemo baze, zato mora biti migracija izvedena pred njegovim zagonom.
 
 ### 4.4 Nastavitve baze in shranjevanja
 
@@ -347,12 +364,13 @@ V mapi backend preveri prevajanje in izdelavo paketa:
 .\mvnw.cmd package
 ```
 
-`npm run lint` preveri pravila kode, `npm run build` gradnjo frontenda, Maven pa gradnjo backenda. Projekt trenutno nima avtomatiziranih testov, zato funkcionalnosti preveri ročno.
+`npm run lint` preveri pravila kode, `npm run build` gradnjo frontenda, Maven pa gradnjo in teste backenda. Testi `PhotoDetailsTest` preverjajo shranjevanje naslova in opisa, mejne dolžine, prazne vrednosti, ohranitev drugih podatkov fotografije, lastništvo in odgovore API. Preostale funkcionalnosti preveri ročno.
 
 Po zagonu obeh delov aplikacije in PostgreSQL ročno preveri:
 
 - Ustvarjanje, urejanje in brisanje albuma.
 - Nalaganje JPG in PNG fotografij ter prikaz njihovih podrobnosti.
+- Urejanje naslova in opisa, preklic urejanja, odstranitev obeh podatkov in ohranitev sprememb po ponovnem odprtju fotografije.
 - Označevanje in odstranjevanje priljubljenosti ter prikaz samo priljubljenih fotografij.
 - Filtriranje po datumu nastanka s fotografijami, ki vsebujejo datum EXIF.
 - Ohranitev podatkov po ponovnem nalaganju strani.
@@ -414,7 +432,7 @@ Besednjak pojasnjuje izraze, ki jih uporabljamo pri organiziranju in pregledovan
 | Izraz | Razlaga |
 | --- | --- |
 | **Album** | Skupina fotografij, ki jih uporabnik zbere pod skupnim naslovom, na primer »Poletje 2026«. Album ima lahko opis in kategorijo. |
-| **Fotografija** | Slika, ki jo uporabnik naloži v izbrani album. Poleg slike so na voljo podatki o njenem imenu, datumu nalaganja, morebitnem datumu nastanka in priljubljenosti. |
+| **Fotografija** | Slika, ki jo uporabnik naloži v izbrani album. Poleg slike so na voljo izvirno ime datoteke, neobvezna naslov in opis, datum nalaganja, morebitni datum nastanka in priljubljenost. |
 | **Zasebna zbirka** | Vsi albumi in fotografije posameznega uporabnika. Do njih lahko dostopa in jih ureja samo njihov lastnik. |
 | **Lastnik albuma** | Uporabnik, ki je ustvaril album. Album in fotografije v njem pripadajo njegovi zasebni zbirki. |
 | **Kategorija albuma** | Tematska oznaka za razvrščanje albumov, na primer »Potovanja«, »Družina« ali »Narava«. Album ima lahko eno kategorijo ali ostane brez nje. |
@@ -426,8 +444,12 @@ Besednjak pojasnjuje izraze, ki jih uporabljamo pri organiziranju in pregledovan
 | **Datum nastanka fotografije** | Datum in čas, ko je bila fotografija posneta. Podatek aplikacija prebere iz datoteke, če je v njej na voljo. |
 | **Datum nalaganja fotografije** | Datum in čas, ko je uporabnik fotografijo dodal v aplikacijo. Lahko se razlikuje od datuma, ko je bila posneta. |
 | **Datum ustvarjanja albuma** | Datum, ko je uporabnik ustvaril album v aplikaciji. Ne določa, kdaj so bile posnete fotografije v njem. |
+| **Naslov fotografije** | Neobvezno ime, ki ga fotografiji dodeli uporabnik, na primer »Sončni zahod na morju«. Ločeno je od izvirnega imena slikovne datoteke in ima največ 100 znakov. |
+| **Opis fotografije** | Neobvezno besedilo o vsebini fotografije, na primer kraj ali dogodek. Ima največ 2000 znakov. |
+| **Iskanje fotografij po naslovu in opisu** | Načrtovani prikaz lastnih fotografij, katerih naslov ali opis vsebuje vneseni niz, ne glede na velikost črk. |
 | **Filtriranje fotografij po datumu** | Prikaz fotografij, katerih datum nastanka je v izbranem obdobju, vključno z začetnim in končnim dnem. Fotografije brez znanega datuma nastanka se pri tem ne prikažejo. |
 
 ## Dokumentacija
 
 - [Primeri uporabe](docs/primeri-uporabe.md)
+- [Uporabniška zgodba: naslov in opis fotografije](docs/user-stories.md)

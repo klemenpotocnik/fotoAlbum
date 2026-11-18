@@ -19,6 +19,12 @@ public class Photo {
 
     private String filename;
 
+    @Column(length = 100)
+    private String title;
+
+    @Column(length = 2000)
+    private String description;
+
     @Column(name = "file_path")
     private String filePath;
 

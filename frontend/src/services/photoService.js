@@ -83,6 +83,14 @@ export async function getAllPhotos({ startDate, endDate, favoritesOnly } = {}) {
     return response.json();
 }
 
+export async function updatePhotoDetails(id, details) {
+    return (await apiFetch(`${API_URL}/photos/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(details)
+    })).json();
+}
+
 export async function setPhotoFavorite(id, favorite) {
     const response = await apiFetch(`${API_URL}/photos/${id}/favorite`, {
         method: 'PATCH',

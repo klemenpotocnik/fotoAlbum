@@ -131,7 +131,11 @@ function AllPhotos({ refreshKey }) {
 
             {selectedPhotoId !== null && (
                 <PhotoDetailsModal
+                    key={selectedPhotoId}
                     photoId={selectedPhotoId}
+                    onPhotoChange={updatedPhoto => setPhotos(previous =>
+                        previous.map(photo => photo.id === updatedPhoto.id ? updatedPhoto : photo)
+                    )}
                     onClose={() => setSelectedPhotoId(null)}
                 />
             )}

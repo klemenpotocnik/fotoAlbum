@@ -11,5 +11,7 @@ public record PhotoResponse(
         String filePath,
         LocalDateTime uploadedAt,
         LocalDateTime dateTaken,
-        boolean favorite
+        boolean favorite,
+        String title,
+        String description
 ) {}

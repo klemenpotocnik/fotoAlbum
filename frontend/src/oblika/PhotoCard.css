@@ -115,3 +115,16 @@
     color: var(--color-mariner-50);
     font-size: 14px;
 }
+
+.photo-card-title {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 8px;
+    background: rgb(12 36 69 / 0.8);
+    color: var(--color-mariner-50);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

@@ -1,2 +1,127 @@
-<?xml version='1.0' encoding='utf-8'?>
-<mxfile host="app.diagrams.net"><diagram name="fotoAlbum"><mxGraphModel grid="1" gridSize="16" page="1" pageWidth="1450" pageHeight="1080"><root><mxCell id="0" /><mxCell id="1" parent="0" /><mxCell id="boundary" value="fotoAlbum" vertex="1" parent="1" style="rounded=0;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;align=center;fontSize=24;spacingTop=14;"><mxGeometry as="geometry" x="425" y="40" width="980" height="990" /></mxCell><mxCell id="user" value="Prijavljen uporabnik" vertex="1" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;align=center;fontSize=18;"><mxGeometry as="geometry" x="247" y="225" width="56" height="115" /></mxCell><mxCell id="visitor" value="Neprijavljen obiskovalec" vertex="1" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;align=center;fontSize=18;"><mxGeometry as="geometry" x="247" y="785" width="56" height="115" /></mxCell><mxCell id="general" value="Uporabnik" vertex="1" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;align=center;fontSize=18;fontStyle=2;"><mxGeometry as="geometry" x="52" y="475" width="56" height="115" /></mxCell><mxCell id="pu01" value="Registracija uporabnika" vertex="1" parent="1" style="ellipse;whiteSpace=wrap;html=0;fillColor=#ffffff;strokeColor=#000000;fontSize=18;"><mxGeometry as="geometry" x="495.0" y="877.0" width="290" height="86" /></mxCell><mxCell id="pu02" value="Prijava uporabnika" vertex="1" parent="1" style="ellipse;whiteSpace=wrap;html=0;fillColor=#ffffff;strokeColor=#000000;fontSize=18;"><mxGeometry as="geometry" x="925.0" y="877.0" width="290" height="86" /></mxCell><mxCell id="pu03" value="Razvrščanje albumov&#10;po kategorijah" vertex="1" parent="1" style="ellipse;whiteSpace=wrap;html=0;fillColor=#ffffff;strokeColor=#000000;fontSize=18;"><mxGeometry as="geometry" x="490.0" y="705.0" width="300" height="90" /></mxCell><mxCell id="pu04" value="Upravljanje lastnih&#10;albumov" vertex="1" parent="1" style="ellipse;whiteSpace=wrap;html=0;fillColor=#ffffff;strokeColor=#000000;fontSize=18;"><mxGeometry as="geometry" x="490.0" y="105.0" width="300" height="90" /></mxCell><mxCell id="pu05" value="Nalaganje fotografij" vertex="1" parent="1" style="ellipse;whiteSpace=wrap;html=0;fillColor=#ffffff;strokeColor=#000000;fontSize=18;"><mxGeometry as="geometry" x="490.0" y="257.0" width="300" height="86" /></mxCell><mxCell id="pu06" value="Preverjanje ustreznosti&#10;fotografije" vertex="1" parent="1" style="ellipse;whiteSpace=wrap;html=0;fillColor=#ffffff;strokeColor=#000000;fontSize=18;"><mxGeometry as="geometry" x="915.0" y="255.0" width="310" height="90" /></mxCell><mxCell id="pu07" value="Pregled fotografij" vertex="1" parent="1" style="ellipse;whiteSpace=wrap;html=0;fillColor=#ffffff;strokeColor=#000000;fontSize=18;"><mxGeometry as="geometry" x="490.0" y="407.0" width="300" height="86" /></mxCell><mxCell id="pu08" value="Označevanje fotografij&#10;kot priljubljenih" vertex="1" parent="1" style="ellipse;whiteSpace=wrap;html=0;fillColor=#ffffff;strokeColor=#000000;fontSize=18;"><mxGeometry as="geometry" x="915.0" y="405.0" width="310" height="90" /></mxCell><mxCell id="pu09" value="Brisanje fotografij" vertex="1" parent="1" style="ellipse;whiteSpace=wrap;html=0;fillColor=#ffffff;strokeColor=#000000;fontSize=18;"><mxGeometry as="geometry" x="490.0" y="557.0" width="300" height="86" /></mxCell><mxCell id="pu10" value="Dodajanje lastne&#10;kategorije" vertex="1" parent="1" style="ellipse;whiteSpace=wrap;html=0;fillColor=#ffffff;strokeColor=#000000;fontSize=18;"><mxGeometry as="geometry" x="915.0" y="705.0" width="310" height="90" /></mxCell><mxCell id="a04" source="user" target="pu04" value="" edge="1" parent="1" style="endArrow=none;strokeColor=#000000;fontSize=15;labelBackgroundColor=#dae8fc;"><mxGeometry as="geometry" relative="1" /></mxCell><mxCell id="a05" source="user" target="pu05" value="" edge="1" parent="1" style="endArrow=none;strokeColor=#000000;fontSize=15;labelBackgroundColor=#dae8fc;"><mxGeometry as="geometry" relative="1" /></mxCell><mxCell id="a07" source="user" target="pu07" value="" edge="1" parent="1" style="endArrow=none;strokeColor=#000000;fontSize=15;labelBackgroundColor=#dae8fc;"><mxGeometry as="geometry" relative="1" /></mxCell><mxCell id="a09" source="user" target="pu09" value="" edge="1" parent="1" style="endArrow=none;strokeColor=#000000;fontSize=15;labelBackgroundColor=#dae8fc;"><mxGeometry as="geometry" relative="1" /></mxCell><mxCell id="a03" source="user" target="pu03" value="" edge="1" parent="1" style="endArrow=none;strokeColor=#000000;fontSize=15;labelBackgroundColor=#dae8fc;"><mxGeometry as="geometry" relative="1"><Array as="points"><mxPoint x="400" y="810" /><mxPoint x="640" y="810" /></Array></mxGeometry></mxCell><mxCell id="a01" source="visitor" target="pu01" value="" edge="1" parent="1" style="endArrow=none;strokeColor=#000000;fontSize=15;labelBackgroundColor=#dae8fc;"><mxGeometry as="geometry" relative="1" /></mxCell><mxCell id="a02" source="visitor" target="pu02" value="" edge="1" parent="1" style="endArrow=none;strokeColor=#000000;fontSize=15;labelBackgroundColor=#dae8fc;"><mxGeometry as="geometry" relative="1"><Array as="points"><mxPoint x="400" y="1000" /><mxPoint x="1070" y="1000" /></Array></mxGeometry></mxCell><mxCell id="g-user" source="user" target="general" value="" edge="1" parent="1" style="endArrow=block;endFill=0;endSize=16;exitX=0;exitY=0.4;entryX=1;entryY=0.4;strokeColor=#000000;fontSize=15;labelBackgroundColor=#dae8fc;"><mxGeometry as="geometry" relative="1"><Array as="points"><mxPoint x="170" y="272" /><mxPoint x="170" y="522" /></Array></mxGeometry></mxCell><mxCell id="g-visitor" source="visitor" target="general" value="" edge="1" parent="1" style="endArrow=block;endFill=0;endSize=16;exitX=0;exitY=0.4;entryX=1;entryY=0.4;strokeColor=#000000;fontSize=15;labelBackgroundColor=#dae8fc;"><mxGeometry as="geometry" relative="1"><Array as="points"><mxPoint x="170" y="832" /><mxPoint x="170" y="522" /></Array></mxGeometry></mxCell><mxCell id="include" source="pu05" target="pu06" value="«include»" edge="1" parent="1" style="endArrow=open;endFill=0;dashed=1;strokeColor=#000000;fontSize=15;labelBackgroundColor=#dae8fc;"><mxGeometry as="geometry" relative="1" /></mxCell><mxCell id="extend-favorite" source="pu08" target="pu07" value="«extend»&#10;[po izbiri uporabnika]" edge="1" parent="1" style="endArrow=open;endFill=0;dashed=1;strokeColor=#000000;fontSize=15;labelBackgroundColor=#dae8fc;"><mxGeometry as="geometry" relative="1" /></mxCell><mxCell id="extend-category" source="pu10" target="pu03" value="«extend»&#10;[izbira Drugo]" edge="1" parent="1" style="endArrow=open;endFill=0;dashed=1;strokeColor=#000000;fontSize=15;labelBackgroundColor=#dae8fc;"><mxGeometry as="geometry" relative="1" /></mxCell></root></mxGraphModel></diagram></mxfile>
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.0.4 Chrome/128.0.6613.186 Electron/32.2.5 Safari/537.36" version="26.0.4">
+  <diagram name="fotoAlbum" id="0">
+    <mxGraphModel dx="756" dy="530" grid="1" gridSize="16" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1450" pageHeight="1900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="boundary" value="fotoAlbum" style="rounded=0;fillColor=#dae8fc;strokeColor=#6c8ebf;verticalAlign=top;align=center;fontSize=24;spacingTop=14;" parent="1" vertex="1">
+          <mxGeometry x="425" y="40" width="980" height="1800" as="geometry" />
+        </mxCell>
+        <mxCell id="user" value="Prijavljen uporabnik" style="shape=umlActor;verticalLabelPosition=middle;verticalAlign=middle;labelPosition=left;align=right;spacingRight=12;fontSize=18;" parent="1" vertex="1">
+          <mxGeometry x="247" y="590" width="56" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="visitor" value="Neprijavljen obiskovalec" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;align=center;fontSize=18;" parent="1" vertex="1">
+          <mxGeometry x="247" y="1670" width="56" height="115" as="geometry" />
+        </mxCell>
+        <mxCell id="pu01" value="Registracija uporabnika" style="ellipse;whiteSpace=wrap;html=0;fillColor=#ffffff;strokeColor=#000000;fontSize=18;" parent="1" vertex="1">
+          <mxGeometry x="495" y="1685" width="290" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="pu02" value="Prijava uporabnika" style="ellipse;whiteSpace=wrap;html=0;fillColor=#ffffff;strokeColor=#000000;fontSize=18;" parent="1" vertex="1">
+          <mxGeometry x="925" y="1685" width="290" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="pu03" value="Razvrščanje albumov&#10;po kategorijah" style="ellipse;whiteSpace=wrap;html=0;fillColor=#ffffff;strokeColor=#000000;fontSize=18;" parent="1" vertex="1">
+          <mxGeometry x="490" y="705" width="300" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="pu04" value="Upravljanje lastnih&#10;albumov" style="ellipse;whiteSpace=wrap;html=0;fillColor=#ffffff;strokeColor=#000000;fontSize=18;" parent="1" vertex="1">
+          <mxGeometry x="490" y="105" width="300" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="pu05" value="Nalaganje fotografij" style="ellipse;whiteSpace=wrap;html=0;fillColor=#ffffff;strokeColor=#000000;fontSize=18;" parent="1" vertex="1">
+          <mxGeometry x="490" y="257" width="300" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="pu06" value="Preverjanje ustreznosti&#10;fotografije" style="ellipse;whiteSpace=wrap;html=0;fillColor=#ffffff;strokeColor=#000000;fontSize=18;" parent="1" vertex="1">
+          <mxGeometry x="915" y="255" width="310" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="pu07" value="Pregled fotografij" style="ellipse;whiteSpace=wrap;html=0;fillColor=#ffffff;strokeColor=#000000;fontSize=18;" parent="1" vertex="1">
+          <mxGeometry x="490" y="407" width="300" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="pu08" value="Označevanje fotografij&#10;kot priljubljenih" style="ellipse;whiteSpace=wrap;html=0;fillColor=#ffffff;strokeColor=#000000;fontSize=18;" parent="1" vertex="1">
+          <mxGeometry x="915" y="405" width="310" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="pu09" value="Brisanje fotografij" style="ellipse;whiteSpace=wrap;html=0;fillColor=#ffffff;strokeColor=#000000;fontSize=18;" parent="1" vertex="1">
+          <mxGeometry x="490" y="557" width="300" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="pu10" value="Dodajanje lastne&#10;kategorije" style="ellipse;whiteSpace=wrap;html=0;fillColor=#ffffff;strokeColor=#000000;fontSize=18;" parent="1" vertex="1">
+          <mxGeometry x="915" y="705" width="310" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="a04" value="" style="endArrow=none;strokeColor=#000000;fontSize=15;labelBackgroundColor=#dae8fc;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="user" target="pu04" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a05" value="" style="endArrow=none;strokeColor=#000000;fontSize=15;labelBackgroundColor=#dae8fc;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="user" target="pu05" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a07" value="" style="endArrow=none;strokeColor=#000000;fontSize=15;labelBackgroundColor=#dae8fc;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="user" target="pu07" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a09" value="" style="endArrow=none;strokeColor=#000000;fontSize=15;labelBackgroundColor=#dae8fc;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="user" target="pu09" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a03" value="" style="endArrow=none;strokeColor=#000000;fontSize=15;labelBackgroundColor=#dae8fc;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="user" target="pu03" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a01" value="" style="endArrow=none;strokeColor=#000000;fontSize=15;labelBackgroundColor=#dae8fc;" parent="1" source="visitor" target="pu01" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a02" value="" style="endArrow=none;strokeColor=#000000;fontSize=15;labelBackgroundColor=#dae8fc;rounded=0;curved=0;" parent="1" source="visitor" target="pu02" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="416" y="1810" />
+              <mxPoint x="1072" y="1810" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="include" value="«include»" style="endArrow=open;endFill=0;dashed=1;strokeColor=#000000;fontSize=15;labelBackgroundColor=#dae8fc;" parent="1" source="pu05" target="pu06" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="extend-favorite" value="«extend»" style="endArrow=open;endFill=0;dashed=1;strokeColor=#000000;fontSize=15;labelBackgroundColor=#dae8fc;" parent="1" source="pu08" target="pu07" edge="1">
+          <mxGeometry x="0.071" y="-18" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="extend-category" value="«extend»" style="endArrow=open;endFill=0;dashed=1;strokeColor=#000000;fontSize=15;labelBackgroundColor=#dae8fc;" parent="1" source="pu10" target="pu03" edge="1">
+          <mxGeometry x="0.072" y="-14" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pu11" value="Filtriranje albumov&#10;po kategoriji" style="ellipse;whiteSpace=wrap;html=0;fillColor=#ffffff;strokeColor=#000000;fontSize=18;" parent="1" vertex="1">
+          <mxGeometry x="490" y="855" width="300" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="a11" value="" style="endArrow=none;strokeColor=#000000;fontSize=15;labelBackgroundColor=#dae8fc;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="user" target="pu11" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pu12" value="Filtriranje fotografij&#10;po datumu nastanka" style="ellipse;whiteSpace=wrap;html=0;fillColor=#ffffff;strokeColor=#000000;fontSize=18;" parent="1" vertex="1">
+          <mxGeometry x="490" y="1005" width="300" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="a12" value="" style="endArrow=none;strokeColor=#000000;fontSize=15;labelBackgroundColor=#dae8fc;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="user" target="pu12" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="pu13" value="Odjava uporabnika" style="ellipse;whiteSpace=wrap;html=0;fillColor=#ffffff;strokeColor=#000000;fontSize=18;" parent="1" vertex="1">
+          <mxGeometry x="490" y="1155" width="300" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="a13" value="" style="endArrow=none;strokeColor=#000000;fontSize=15;labelBackgroundColor=#dae8fc;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="user" target="pu13" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="generalization" value="" style="endArrow=block;endFill=0;dashed=0;strokeColor=#000000;exitX=0.5;exitY=1;entryX=0;entryY=0.5;rounded=0;" parent="1" source="user" edge="1" target="visitor">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="275" y="760" />
+              <mxPoint x="100" y="760" />
+              <mxPoint x="100" y="1727.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="pu14" value="Dodajanje in urejanje&#10;naslova ter opisa&#10;fotografije" style="ellipse;whiteSpace=wrap;html=0;fillColor=#ffffff;strokeColor=#000000;fontSize=18;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="490" y="1305" width="300" height="90" />
+        </mxCell>
+        <mxCell id="a14" value="" style="endArrow=none;strokeColor=#000000;fontSize=15;labelBackgroundColor=#dae8fc;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="user" target="pu14" edge="1">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="pu15" value="Iskanje fotografij&#10;po naslovu in opisu" style="ellipse;whiteSpace=wrap;html=0;fillColor=#ffffff;strokeColor=#000000;fontSize=18;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="490" y="1455" width="300" height="90" />
+        </mxCell>
+        <mxCell id="a15" value="" style="endArrow=none;strokeColor=#000000;fontSize=15;labelBackgroundColor=#dae8fc;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="user" target="pu15" edge="1">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

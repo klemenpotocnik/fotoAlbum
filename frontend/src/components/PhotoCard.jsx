@@ -4,6 +4,7 @@ import { getPhotoUrl, setPhotoFavorite } from '../services/photoService';
 import '../oblika/PhotoCard.css';
 
 function PhotoCard({ photo, onDelete, onClick, onFavoriteChange }) {
+    const label = photo.title || photo.filename;
     const [savingFavorite, setSavingFavorite] = useState(false);
     const [favoriteError, setFavoriteError] = useState('');
 
@@ -27,16 +28,17 @@ function PhotoCard({ photo, onDelete, onClick, onFavoriteChange }) {
                 type="button"
                 className="photo-details-trigger"
                 onClick={() => onClick(photo.id)}
-                aria-label={`Podrobnosti fotografije ${photo.filename}`}
+                aria-label={`Podrobnosti fotografije ${label}`}
             >
                 <img
                     src={getPhotoUrl(photo.id)}
-                    alt={photo.filename}
+                    alt={label}
                     loading="lazy"
                     decoding="async"
                     width="300"
                     height="300"
                 />
+                {photo.title && <span className="photo-card-title">{photo.title}</span>}
             </button>
 
             <button
@@ -45,7 +47,7 @@ function PhotoCard({ photo, onDelete, onClick, onFavoriteChange }) {
                 onClick={handleFavorite}
                 disabled={savingFavorite}
                 aria-pressed={Boolean(photo.favorite)}
-                aria-label={`${photo.favorite ? 'Odstrani iz priljubljenih' : 'Dodaj med priljubljene'}: ${photo.filename}`}
+                aria-label={`${photo.favorite ? 'Odstrani iz priljubljenih' : 'Dodaj med priljubljene'}: ${label}`}
                 title={photo.favorite ? 'Odstrani iz priljubljenih' : 'Dodaj med priljubljene'}
             >
                 {photo.favorite ? '★' : '☆'}
@@ -57,7 +59,7 @@ function PhotoCard({ photo, onDelete, onClick, onFavoriteChange }) {
                     type="button"
                     className="photo-delete-button"
                     onClick={() => onDelete(photo)}
-                    aria-label={`Izbriši ${photo.filename}`}
+                    aria-label={`Izbriši ${label}`}
                     title="Izbriši fotografijo"
                 >
                     🗑

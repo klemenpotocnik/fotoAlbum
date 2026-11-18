@@ -2,6 +2,7 @@
 package fotoAlbum.fotoAlbum.service;
 
 import fotoAlbum.fotoAlbum.dto.PhotoResponse;
+import fotoAlbum.fotoAlbum.dto.PhotoDetailsRequest;
 import fotoAlbum.fotoAlbum.model.*;
 import fotoAlbum.fotoAlbum.repository.*;
 
@@ -62,7 +63,9 @@ public class PhotoService {
                 photo.getFilePath(),
                 photo.getUploadedAt(),
                 photo.getDateTaken(),
-                photo.isFavorite()
+                photo.isFavorite(),
+                photo.getTitle(),
+                photo.getDescription()
         );
     }
 
@@ -334,6 +337,23 @@ public class PhotoService {
                 .stream()
                 .map(this::toPhotoResponse)
                 .toList();
+    }
+
+    public PhotoResponse updateDetails(Long id, PhotoDetailsRequest request) {
+        Photo photo = photoRepository.findByIdAndAlbumOwnerId(id, current.id())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Fotografija ne obstaja"));
+        if (request.title() != null && request.title().length() > 100) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Naslov fotografije lahko vsebuje največ 100 znakov.");
+        }
+        if (request.description() != null && request.description().length() > 2000) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Opis fotografije lahko vsebuje največ 2000 znakov.");
+        }
+        photo.setTitle(request.title());
+        photo.setDescription(request.description());
+        return toPhotoResponse(photoRepository.save(photo));
     }
 
     @Transactional
