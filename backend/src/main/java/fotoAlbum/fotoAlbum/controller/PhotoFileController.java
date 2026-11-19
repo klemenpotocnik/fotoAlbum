@@ -66,10 +66,11 @@ public class PhotoFileController {
     public ResponseEntity<List<PhotoResponse>> getAllPhotos(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
-            @RequestParam(defaultValue = "false") boolean favoritesOnly
+            @RequestParam(defaultValue = "false") boolean favoritesOnly,
+            @RequestParam(required = false) String q
     ) {
 
-        List<PhotoResponse> photos = photoService.getAllPhotos(startDate, endDate, favoritesOnly);
+        List<PhotoResponse> photos = photoService.getAllPhotos(startDate, endDate, favoritesOnly, q);
 
         return ResponseEntity.ok(photos);
     }
@@ -89,3 +90,4 @@ public class PhotoFileController {
     }
 
 }
+

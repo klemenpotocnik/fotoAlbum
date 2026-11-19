@@ -2,11 +2,14 @@
 import { useEffect, useState } from 'react';
 import { getAllPhotos } from '../services/photoService';
 import PhotoCard from './PhotoCard';
+import PhotoSearchForm from './photos/PhotoSearchForm';
 import PhotoDetailsModal from './PhotoDetailsModal';
 import '../oblika/PhotoGallery.css';
 
 function AllPhotos({ refreshKey }) {
     const [photos, setPhotos] = useState([]);
+    const [query, setQuery] = useState('');
+    const [revision, setRevision] = useState(0);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [selectedPhotoId, setSelectedPhotoId] = useState(null);
@@ -25,7 +28,7 @@ function AllPhotos({ refreshKey }) {
             setError('');
 
             try {
-                const data = await getAllPhotos({ ...filter, favoritesOnly });
+                const data = await getAllPhotos({ ...filter, favoritesOnly, q: query });
 
                 if (active) {
                     setPhotos(data);
@@ -46,7 +49,7 @@ function AllPhotos({ refreshKey }) {
         return () => {
             active = false;
         };
-    }, [refreshKey, filter, favoritesOnly]);
+    }, [refreshKey, filter, favoritesOnly, query, revision]);
 
     const handleFilter = (event) => {
         event.preventDefault();
@@ -75,6 +78,9 @@ function AllPhotos({ refreshKey }) {
     return (
         <section className="all-photos">
             <h2>{favoritesOnly ? 'Priljubljene fotografije' : 'Vse fotografije'} ({photos.length})</h2>
+
+            <PhotoSearchForm onSearch={value => { setQuery(value); setRevision(previous => previous + 1); }} />
+            {query && <p>Iskanje: {query}</p>}
 
             <label className="photo-favorites-filter">
                 <input type="checkbox" checked={favoritesOnly}
@@ -111,7 +117,7 @@ function AllPhotos({ refreshKey }) {
             {error && <p role="alert">{error}</p>}
 
             {!loading && !error && photos.length === 0 && (
-                <p>{isFiltered
+                <p>{query ? 'Ni fotografij, ki ustrezajo iskanju in izbranim filtrom.' : isFiltered
                     ? (favoritesOnly ? 'V izbranem obdobju ni priljubljenih fotografij.' : 'V izbranem obdobju ni fotografij.')
                     : (favoritesOnly ? 'Trenutno še ni priljubljenih fotografij. Označi jih z zvezdico.' : 'Trenutno še ni nobene fotografije.')}</p>
             )}
@@ -133,9 +139,7 @@ function AllPhotos({ refreshKey }) {
                 <PhotoDetailsModal
                     key={selectedPhotoId}
                     photoId={selectedPhotoId}
-                    onPhotoChange={updatedPhoto => setPhotos(previous =>
-                        previous.map(photo => photo.id === updatedPhoto.id ? updatedPhoto : photo)
-                    )}
+                    onPhotoChange={() => setRevision(previous => previous + 1)}
                     onClose={() => setSelectedPhotoId(null)}
                 />
             )}
@@ -144,3 +148,4 @@ function AllPhotos({ refreshKey }) {
 }
 
 export default AllPhotos;
+

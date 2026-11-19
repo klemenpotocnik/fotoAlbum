@@ -194,18 +194,17 @@ Pred začetkom implementacije ekipa potrdi zgodbo, sprejemne kriterije in tehni�
 
 ### Preverjanje zgodbe
 
-| Kriterij | Rezultat preverjanja v celotni aplikaciji |
+| Kriterij | Rezultat preverjanja |
 | --- | --- |
-| AC-IVAN-01: Iskanje | Ni še preverjeno. |
-| AC-IVAN-02: Brez zadetkov in čiščenje | Ni še preverjeno. |
-| AC-IVAN-03: Neveljaven vnos | Ni še preverjeno. |
-| AC-IVAN-04: Zasebnost | Ni še preverjeno. |
+| AC-IVAN-01: Iskanje | Uspešno: iskanje po naslovu in opisu v obeh galerijah, filter priljubljenih ter izključitev fotografije brez datuma pri datumskem filtru. |
+| AC-IVAN-02: Brez zadetkov in čiščenje | Uspešno: sporočilo brez zadetkov, čiščenje iskanja in ohranitev filtra priljubljenih. |
+| AC-IVAN-03: Neveljaven vnos | Uspešno: vnos s 101 znakom je zavrnjen z opozorilom, besedilo ostane v polju. |
+| AC-IVAN-04: Zasebnost | Uspešno: drugi račun ne vidi tujih fotografij in nima dostopa do tujega albuma. |
 
 ### Izvedena preverjanja kode
 
-- `npm run lint` in `npm run build`: uspešno.
-- React DOM s simuliranim API: 27 uspešnih preverjanj.
-- Samostojni preizkus logike `PhotoSearch`: 14 uspešnih preverjanj. Springova tipa statusa in izjeme sta bila nadomeščena; to ni integracijski preizkus backenda.
-- Dodanih je 6 testnih metod v `PhotoSearchTest`. Izvajanje prek Maven ni uspelo zaradi nedosegljivega Maven Central. Razvojno okolje za projekt zahteva JDK 25.
-
-Preizkus celotne aplikacije in dostopa do podatkov v dejanski bazi še ni potrjen.
+- `npm run lint`: uspešno.
+- `npm run build`: uspešno.
+- `mvnw.cmd test` z JDK 25: 13 uspešnih testov, brez napak.
+- `PhotoSearchTest`: vseh 6 testov iskanja uspešnih.
+- Ročno preverjeni sprejemni kriteriji so zapisani v tabeli preverjanja zgodbe.

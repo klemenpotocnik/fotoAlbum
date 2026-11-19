@@ -1,0 +1,35 @@
+.photo-search-form {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.photo-search-form label { font-weight: 600; }
+.photo-search-controls { display: flex; flex-wrap: wrap; gap: 10px; }
+.photo-search-controls input {
+    box-sizing: border-box;
+    flex: 1 1 220px;
+    min-width: 0;
+    padding: 12px 15px;
+    border: 1px solid var(--color-mariner-200);
+    border-radius: 8px;
+    font: inherit;
+    background: var(--color-mariner-50);
+    color: var(--color-mariner-950);
+}
+.photo-search-controls input:focus {
+    outline: 2px solid var(--color-mariner-500);
+    outline-offset: 2px;
+}
+.photo-search-controls input[aria-invalid="true"] { border-color: #a32020; }
+.photo-search-controls button {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: var(--color-mariner-600);
+    color: var(--color-mariner-50);
+    font: inherit;
+    cursor: pointer;
+}
+.photo-search-controls button:hover { background: var(--color-mariner-700); }
+.photo-search-form [role="alert"] { color: #a32020; }

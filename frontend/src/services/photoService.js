@@ -2,9 +2,11 @@ import { apiFetch } from './api';
 
 const API_URL = '/api';
 
-export async function getPhotosByAlbumId(albumId) {
+export async function getPhotosByAlbumId(albumId, { q } = {}) {
+    const params = new URLSearchParams();
+    if (q) params.set('q', q);
     const response = await apiFetch(
-        `${API_URL}/albums/${albumId}/photos`
+        `${API_URL}/albums/${albumId}/photos${params.size ? `?${params}` : ''}`
     );
 
     if (!response.ok) {
@@ -68,11 +70,12 @@ export async function getPhotoById(id) {
     return response.json();
 }
 
-export async function getAllPhotos({ startDate, endDate, favoritesOnly } = {}) {
+export async function getAllPhotos({ startDate, endDate, favoritesOnly, q } = {}) {
     const params = new URLSearchParams();
     if (startDate) params.set('startDate', startDate);
     if (endDate) params.set('endDate', endDate);
     if (favoritesOnly) params.set('favoritesOnly', 'true');
+    if (q) params.set('q', q);
 
     const response = await apiFetch(`${API_URL}/photos${params.size ? `?${params}` : ''}`);
 
@@ -102,3 +105,4 @@ export async function setPhotoFavorite(id, favorite) {
     }
     return response.json();
 }
+
