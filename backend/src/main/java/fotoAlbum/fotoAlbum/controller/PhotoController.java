@@ -43,10 +43,11 @@ public class PhotoController {
     @Operation(summary = "Pridobi vse fotografije določenega albuma")
     @GetMapping("/{albumId}/photos")
     public ResponseEntity<List<PhotoResponse>> getPhotosByAlbum(
-            @PathVariable Long albumId
+            @PathVariable Long albumId,
+            @RequestParam(required = false) String q
     ) {
         List<PhotoResponse> photos =
-                photoService.getPhotosByAlbumId(albumId);
+                photoService.getPhotosByAlbumId(albumId, q);
 
         return ResponseEntity.ok(photos);
     }
@@ -65,3 +66,4 @@ public class PhotoController {
 
 
 }
+

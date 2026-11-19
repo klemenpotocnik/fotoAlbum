@@ -452,4 +452,11 @@ Besednjak pojasnjuje izraze, ki jih uporabljamo pri organiziranju in pregledovan
 ## Dokumentacija
 
 - [Primeri uporabe](docs/primeri-uporabe.md)
-- [Uporabniška zgodba: naslov in opis fotografije](docs/user-stories.md)
+- [Uporabniške zgodbe: podatki in iskanje fotografij](docs/user-stories.md)
+
+
+
+### Iskanje fotografij
+V galeriji vnesi del naslova ali opisa in izberi **Išči**. Iskanje prikazuje lastne fotografije in ne razlikuje velikih in malih črk. Vnos ima največ 100 znakov. **Počisti iskanje** odstrani besedilni filter.
+
+Zgodba in podnalogi: [US-IVAN-01](docs/user-stories.md#us-ivan-01-iskanje-fotografij-po-naslovu-in-opisu).

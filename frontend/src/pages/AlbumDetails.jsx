@@ -4,6 +4,7 @@ import { useParams, Link } from 'react-router';
 import { getAlbumById } from '../services/albumService';
 import { getPhotosByAlbumId, uploadPhotos, deletePhoto, deleteAllPhotos } from '../services/photoService';
 import PhotoGallery from '../components/PhotoGallery';
+import PhotoSearchForm from '../components/photos/PhotoSearchForm';
 import PhotoUploadModal from '../components/PhotoUploadModal';
 import PhotoDeleteModal from '../components/PhotoDeleteModal';
 import PhotoDetailsModal from '../components/PhotoDetailsModal';
@@ -21,6 +22,8 @@ function AlbumDetailsContent({ id }) {
     const [error, setError] = useState('');
 
     const [photos, setPhotos] = useState([]);
+    const [query, setQuery] = useState('');
+    const [revision, setRevision] = useState(0);
     const [photosLoading, setPhotosLoading] = useState(true);
     const [photosError, setPhotosError] = useState('');
 
@@ -71,8 +74,10 @@ function AlbumDetailsContent({ id }) {
         let active = true;
 
         const loadPhotos = async () => {
+            setPhotosLoading(true);
+            setPhotosError('');
             try {
-                const data = await getPhotosByAlbumId(id);
+                const data = await getPhotosByAlbumId(id, { q: query });
 
                 if (active) {
                     setPhotos(data);
@@ -94,7 +99,7 @@ function AlbumDetailsContent({ id }) {
         return () => {
             active = false;
         };
-    }, [id]);
+    }, [id, query, revision]);
 
     if (loading) {
         return <p>Nalaganje albuma...</p>;
@@ -109,9 +114,8 @@ function AlbumDetailsContent({ id }) {
     }
 
     const handleUploadPhotos = async (files) => {
-        const uploadedPhotos = await uploadPhotos(id, files);
-
-        setPhotos(prev => [...prev, ...uploadedPhotos]);
+        await uploadPhotos(id, files);
+        setRevision(previous => previous + 1);
     };
 
     const handleDeletePhoto = async () => {
@@ -148,7 +152,7 @@ function AlbumDetailsContent({ id }) {
             setDeleteAllError(error.message);
 
             try {
-                const remainingPhotos = await getPhotosByAlbumId(id);
+                const remainingPhotos = await getPhotosByAlbumId(id, { q: query });
                 setPhotos(remainingPhotos);
             } catch {
                 // Keep the original deletion error if refreshing also fails.
@@ -182,7 +186,8 @@ function AlbumDetailsContent({ id }) {
                     <button
                         className="delete-all-photos-button"
                         onClick={() => setIsDeleteAllOpen(true)}
-                        disabled={photos.length === 0}
+                        disabled={photosLoading || photos.length === 0 || Boolean(query)}
+                        title={query ? 'Nejprej počisti iskanje za brisanje vseh fotografij albuma.' : undefined}
                     >
                         Izbriši vse
                     </button>
@@ -193,11 +198,17 @@ function AlbumDetailsContent({ id }) {
                 </div>
             </div>
 
+            <PhotoSearchForm onSearch={value => { setQuery(value); setRevision(previous => previous + 1); }} />
+            {query && <p>Iskanje: {query}</p>}
+            {!photosLoading && !photosError && query && photos.length === 0 && (
+                <p>V tem albumu ni fotografij, ki ustrezajo iskanju.</p>
+            )}
+
             {photosLoading && <p>Nalaganje fotografij...</p>}
 
             {photosError && <p role="alert">{photosError}</p>}
 
-            {!photosLoading && !photosError && (
+            {!photosLoading && !photosError && (!query || photos.length > 0) && (
                 <PhotoGallery
                     photos={photos}
                     onFavoriteChange={updatedPhoto => setPhotos(previous =>
@@ -246,9 +257,7 @@ function AlbumDetailsContent({ id }) {
                 <PhotoDetailsModal
                     key={selectedPhotoId}
                     photoId={selectedPhotoId}
-                    onPhotoChange={updatedPhoto => setPhotos(previous =>
-                        previous.map(photo => photo.id === updatedPhoto.id ? updatedPhoto : photo)
-                    )}
+                    onPhotoChange={() => setRevision(previous => previous + 1)}
                     onClose={() => setSelectedPhotoId(null)}
                 />
             )}
@@ -258,4 +267,5 @@ function AlbumDetailsContent({ id }) {
 }
 
 export default AlbumDetails;
+
 

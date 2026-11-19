@@ -339,6 +339,21 @@ public class PhotoService {
                 .toList();
     }
 
+    public List<PhotoResponse> getAllPhotos(LocalDate startDate, LocalDate endDate,
+                                            boolean favoritesOnly, String query) {
+        String normalized = PhotoSearch.normalize(query);
+        return getAllPhotos(startDate, endDate, favoritesOnly).stream()
+                .filter(photo -> PhotoSearch.matches(photo.title(), photo.description(), normalized))
+                .toList();
+    }
+
+    public List<PhotoResponse> getPhotosByAlbumId(Long albumId, String query) {
+        String normalized = PhotoSearch.normalize(query);
+        return getPhotosByAlbumId(albumId).stream()
+                .filter(photo -> PhotoSearch.matches(photo.title(), photo.description(), normalized))
+                .toList();
+    }
+
     public PhotoResponse updateDetails(Long id, PhotoDetailsRequest request) {
         Photo photo = photoRepository.findByIdAndAlbumOwnerId(id, current.id())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
@@ -367,3 +382,4 @@ public class PhotoService {
 
 
 }
+

@@ -1,4 +1,4 @@
-# Uporabniška zgodba: naslov in opis fotografije
+# Uporabniške zgodbe
 
 Dokument opisuje dodajanje, urejanje in odstranjevanje neobveznega naslova
 ter opisa fotografije. Povezan je s primerom uporabe
@@ -120,3 +120,91 @@ Zgodba je pripravljena za implementacijo, ko so izpolnjeni vsi pogoji:
 | Preizkus API z ločeno PostgreSQL bazo | Potrjeni so trajno shranjevanje, odstranjevanje praznih vrednosti, ohranitev slike in drugih podatkov ter zavrnitve nepooblaščenih zahtev. |
 | Preverjanje frontenda | `npm run lint` in `npm run build` sta uspešna. |
 | Ročni pregled vseh sprejemnih kriterijev v brskalniku | Še ni potrjen; dosedanje preverjanje ne dokazuje delovanja preklica in vseh stanj uporabniškega vmesnika. |
+
+
+---
+
+## US-IVAN-01: Iskanje fotografij po naslovu in opisu
+
+**Odgovorni član:** Ivan Kretov (@ivankretov999-code)
+**Prioriteta:** srednja
+**Ocena zahtevnosti:** 3 točke (relativna ocena)
+
+**Uporabniška zgodba:** Kot prijavljen uporabnik želim iskati svoje fotografije po naslovu in opisu, da najdem fotografije z želeno vsebino.
+
+### Sprejemni kriteriji
+
+#### AC-IVAN-01: Iskanje
+- **Given:** Uporabnik je prijavljen in ima fotografiji z naslovom »Morje« oziroma opisom »Poletje ob morju«.
+- **When:** Vpiše »MOR« in izbere »Išči«.
+- **Then:** V pregledu vseh fotografij se prikažeta obe fotografiji. Iskanje ne razlikuje velikih in malih črk. V posameznem albumu se prikažejo samo ustrezne fotografije tega albuma. Morebitna aktivna filtra datuma in priljubljenosti ostaneta upoštevana.
+
+#### AC-IVAN-02: Brez zadetkov in čiščenje
+- **Given:** Uporabnik ima odprto galerijo.
+- **When:** Poišče besedilo, ki ga ni v naslovu ali opisu nobene prikazane fotografije.
+- **Then:** Galerija ne prikaže fotografij in pokaže sporočilo, da ni zadetkov. Po izbiri »Počisti iskanje« se iskalno polje izprazni in znova pokažejo fotografije, ki ustrezajo preostalim filtrom. Prazno iskanje ali samo presledki učinkujejo enako.
+
+#### AC-IVAN-03: Neveljaven vnos
+- **Given:** Uporabnik ima odprto iskalno polje.
+- **When:** Vnese 101 znak brez robnih presledkov in izbere »Išči«.
+- **Then:** Sistem pokaže omejitev 100 znakov, ohrani vneseno besedilo za popravek in ne izvede novega iskanja.
+
+#### AC-IVAN-04: Zasebnost
+- **Given:** Drug uporabnik ima fotografijo z naslovom »Skrivnost«, trenutni uporabnik pa nima take fotografije.
+- **When:** Trenutni uporabnik poišče »Skrivnost« ali poskuša iskati v tujem albumu.
+- **Then:** Tuja fotografija se ne prikaže. Dostop do tujega albuma je zavrnjen brez razkritja njegovih fotografij.
+
+### Podrobnosti implementacije
+- Uporabimo obstoječi polji `Photo.title` (100 znakov) in `Photo.description` (2000 znakov). Iskanje ne spreminja teh podatkov in ne išče po imenu datoteke.
+- Obstoječima zahtevama `GET /api/photos` in `GET /api/albums/{albumId}/photos` dodamo neobvezni parameter `q`. Primer: `/api/photos?q=mor`.
+- `PhotoSearch.normalize` odstrani robne presledke, zavrne več kot 100 znakov z odgovorom 400 in uporabi `Locale.ROOT` za male črke. `matches` išče dobeseden podniz v naslovu ALI opisu; znaki %, _ in & nimajo posebnega pomena. Manjkajoči podatki ne povzročijo napake.
+- `PhotoService` najprej pridobi samo fotografije trenutnega uporabnika z obstoječimi filtri in nato uporabi `PhotoSearch`. Pri albumu ostane preverjanje lastništva in odgovor 404. Vrstni red rezultatov se ohrani.
+- `PhotoSearchForm` je skupen obema galerijama. Iskanje se sproži z gumbom Išči ali Enter. Počisti iskanje odstrani samo besedilni filter. Ob napaki povezave ostane vnos in uporabnik lahko ponovi isto iskanje.
+- Po urejanju naslova/opisa ali nalaganju fotografije se seznam ponovno naloži z aktivnim iskanjem. Pozen odgovor stare zahteve ne prepiše novejših rezultatov.
+- Pri aktivnem iskanju v albumu je gumb Izbriši vse onemogočen; za brisanje celotnega albuma je treba najprej počistiti iskanje.
+- Rešitev je namenjena obstoječi osebni zbirki: filtriranje besedila poteka v servisu nad že pridobljenim seznamom, brez novega indeksa ali straničenja. Pri zelo velikih zbirkah bi iskanje prestavili v poizvedbo podatkovne baze.
+
+### Podnalogi
+- US-IVAN-01-T1: Backend za iskanje fotografij — Ivan Kretov.
+- US-IVAN-01-T2: Iskalno polje in preverjanje delovanja — Ivan Kretov.
+
+### Definition of Ready
+Pred začetkom implementacije ekipa potrdi zgodbo, sprejemne kriterije in tehnične podrobnosti.
+
+
+### GitHub
+
+- [US-IVAN-01: Iskanje fotografij po naslovu in opisu](https://github.com/klemenpotocnik/fotoAlbum/issues/4)
+- [US-IVAN-01-T1: Backend za iskanje fotografij](https://github.com/klemenpotocnik/fotoAlbum/issues/5)
+- [US-IVAN-01-T2: Iskalno polje in preverjanje delovanja](https://github.com/klemenpotocnik/fotoAlbum/issues/6)
+
+### Opisa podnalog
+
+#### US-IVAN-01-T1: Backend za iskanje fotografij
+
+**Odgovorni član:** Ivan Kretov (@ivankretov999-code)
+
+**Opis:** Obstoječima GET zahtevama za vse fotografije in fotografije albuma dodati parameter q. Omogočiti iskanje po delu naslova ali opisa, ne glede na velike in male črke. Preveriti omejitev 100 znakov, lastništvo in kombiniranje z obstoječimi filtri. Dodati teste.
+
+#### US-IVAN-01-T2: Iskalno polje in preverjanje delovanja
+
+**Odgovorni član:** Ivan Kretov (@ivankretov999-code)
+
+**Opis:** V obe galeriji dodati skupno iskalno polje z gumboma Išči in Počisti iskanje. Prikazati zadetke, sporočilo brez zadetkov in napako neveljavnega vnosa. Omogočiti ponovni poskus po napaki povezave. Preveriti sprejemne kriterije v delujoči aplikaciji in zapisati rezultate v docs/user-stories.md.
+
+### Preverjanje zgodbe
+
+| Kriterij | Rezultat preverjanja |
+| --- | --- |
+| AC-IVAN-01: Iskanje | Uspešno: iskanje po naslovu in opisu v obeh galerijah, filter priljubljenih ter izključitev fotografije brez datuma pri datumskem filtru. |
+| AC-IVAN-02: Brez zadetkov in čiščenje | Uspešno: sporočilo brez zadetkov, čiščenje iskanja in ohranitev filtra priljubljenih. |
+| AC-IVAN-03: Neveljaven vnos | Uspešno: vnos s 101 znakom je zavrnjen z opozorilom, besedilo ostane v polju. |
+| AC-IVAN-04: Zasebnost | Uspešno: drugi račun ne vidi tujih fotografij in nima dostopa do tujega albuma. |
+
+### Izvedena preverjanja kode
+
+- `npm run lint`: uspešno.
+- `npm run build`: uspešno.
+- `mvnw.cmd test` z JDK 25: 13 uspešnih testov, brez napak.
+- `PhotoSearchTest`: vseh 6 testov iskanja uspešnih.
+- Ročno preverjeni sprejemni kriteriji so zapisani v tabeli preverjanja zgodbe.
