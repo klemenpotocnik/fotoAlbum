@@ -66,6 +66,12 @@ Albume lahko razvrsti po kategorijah, fotografije pa označi kot
 priljubljene in jih filtrira po datumu nastanka. Tako lažje najde
 želene fotografije tudi v večji zbirki.
 
+Z načrtovano nadgradnjo bodo lahko uporabniki izbrane fotografije objavili
+na javni strani, kjer bodo zbrane njihove objave in objave drugih
+uporabnikov. Objave bodo lahko všečkali in komentirali, albume pa delili
+prek povezave. Koš bo uporabnikom omogočil obnovitev pomotoma izbrisanih
+fotografij.
+
 ### Ključne funkcionalnosti
 
 - Registracija, prijava in odjava uporabnika.
@@ -84,14 +90,19 @@ priljubljene in jih filtrira po datumu nastanka. Tako lažje najde
 ### Načrtovane funkcionalnosti
 
 - Iskanje fotografij v zasebni zbirki po delu naslova ali opisa, tudi skupaj z datumskim filtrom in filtrom priljubljenih.
+- Javno objavljanje fotografij, ki jih uporabnik izbere iz svoje zbirke.
+- Javna stran za ogled lastnih objav in objav drugih uporabnikov.
+- Všečkanje in komentiranje javnih objav za prijavljene uporabnike.
+- Deljenje posameznega albuma prek povezave, ki prejemniku omogoča ogled albuma.
+- Premik izbrisanih fotografij v koš. Uporabnik jih lahko obnovi v 30 dneh po izbrisu, po izteku tega roka pa jih aplikacija samodejno in dokončno izbriše.
 
 ### Obseg rešitve in morebitne omejitve
 
-Aplikacija je namenjena osebni uporabi prek spletnega brskalnika.
-Vsak uporabnik lahko dostopa samo do svojih albumov in fotografij
-ter kategorij, povezanih s svojim računom. Javno deljenje albumov,
-skupno urejanje, obdelava fotografij in nalaganje videoposnetkov
-niso vključeni v obseg trenutne rešitve.
+Aplikacija je namenjena uporabi prek spletnega brskalnika. Albumi in
+fotografije so privzeto zasebni. Na javni strani bodo vidne le fotografije,
+ki jih lastniki izrecno objavijo. Povezava do deljenega albuma bo omogočala
+ogled tega albuma. Skupno urejanje albumov, obdelava fotografij in nalaganje
+videoposnetkov niso vključeni v obseg rešitve.
 
 Album ima lahko eno kategorijo ali pa ostane brez nje. Na voljo so
 kategorije Potovanja, Družina, Prijatelji, Dogodki, Narava, Šport,
