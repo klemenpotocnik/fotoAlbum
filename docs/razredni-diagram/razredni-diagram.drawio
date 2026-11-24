@@ -1,0 +1,159 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/26.0.4 Chrome/128.0.6613.186 Electron/32.2.5 Safari/537.36" version="26.0.4">
+  <diagram id="fotoalbum-class" name="Razredni diagram">
+    <mxGraphModel dx="1059" dy="743" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1250" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="title" value="&lt;b&gt;FotoAlbum · Razredni diagram&lt;/b&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;fontColor=#1e293b;fontSize=25;spacing=0;" parent="1" vertex="1">
+          <mxGeometry x="45" y="20" width="1050" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="Klemen Potočnik · Računi, albumi in javne objave" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;fontColor=#1e293b;fontSize=15;spacing=0;" parent="1" vertex="1">
+          <mxGeometry x="45" y="56" width="1050" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="auth" value="&lt;div style=&quot;text-align:center;background:#e3effb;padding:7px;font-size:16px&quot;&gt;&lt;b&gt;AuthController&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;border-top:1px solid #76879a;padding:7px 9px;line-height:20px&quot;&gt;- users: UserRepository&lt;br&gt;- encoder: PasswordEncoder&lt;br&gt;- current: CurrentUser&lt;br&gt;- categories: DefaultCategories&lt;/div&gt;&lt;div style=&quot;border-top:1px solid #76879a;padding:7px 9px;line-height:20px&quot;&gt;+ signup(request: SignupRequest): ResponseEntity&amp;lt;UserResponse&amp;gt;&lt;br&gt;+ me(): UserResponse&lt;/div&gt;" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;fillColor=#ffffff;strokeColor=#76879a;fontColor=#182a3c;fontSize=13;overflow=fill;" parent="1" vertex="1">
+          <mxGeometry x="45" y="120" width="310" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="albums" value="&lt;div style=&quot;text-align:center;background:#e3effb;padding:7px;font-size:16px&quot;&gt;&lt;b&gt;AlbumController&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;border-top:1px solid #76879a;padding:7px 9px;line-height:20px&quot;&gt;- albums: AlbumRepository&lt;br&gt;- photos: PhotoService&lt;br&gt;- current: CurrentUser&lt;br&gt;- categories: CategoryRepository&lt;/div&gt;&lt;div style=&quot;border-top:1px solid #76879a;padding:7px 9px;line-height:20px&quot;&gt;+ create(request: AlbumRequest): AlbumResponse&lt;br&gt;+ all(): List&amp;lt;AlbumResponse&amp;gt;&lt;br&gt;+ one(id: Long): AlbumResponse&lt;br&gt;+ update(id: Long, request: AlbumRequest): AlbumResponse&lt;br&gt;+ delete(id: Long): ResponseEntity&amp;lt;String&amp;gt;&lt;br&gt;+ deleteAll(): ResponseEntity&amp;lt;String&amp;gt;&lt;/div&gt;" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;fillColor=#ffffff;strokeColor=#76879a;fontColor=#182a3c;fontSize=13;overflow=fill;" parent="1" vertex="1">
+          <mxGeometry x="440" y="120" width="335" height="274" as="geometry" />
+        </mxCell>
+        <mxCell id="security" value="&lt;div style=&quot;text-align:center;background:#e3effb;padding:7px;font-size:16px&quot;&gt;&lt;b&gt;SecurityConfig&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;border-top:1px solid #76879a;padding:7px 9px;line-height:20px&quot;&gt;~ passwordEncoder(): PasswordEncoder&lt;br&gt;~ userDetailsService(users: UserRepository): UserDetailsService&lt;br&gt;~ securityFilterChain(http: HttpSecurity): SecurityFilterChain&lt;/div&gt;" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;fillColor=#ffffff;strokeColor=#76879a;fontColor=#182a3c;fontSize=13;overflow=fill;" parent="1" vertex="1">
+          <mxGeometry x="865" y="120" width="385" height="125" as="geometry" />
+        </mxCell>
+        <mxCell id="security-note" value="&lt;b&gt;Spring Security&lt;/b&gt;&lt;br&gt;Prijava: POST /api/auth/login&lt;br&gt;Odjava: POST /api/auth/logout" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;fontColor=#1e293b;fontSize=13;spacing=0;" parent="1" vertex="1">
+          <mxGeometry x="865" y="252" width="385" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="user" value="&lt;div style=&quot;text-align:center;background:#e3effb;padding:7px;font-size:16px&quot;&gt;&lt;b&gt;AppUser&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;border-top:1px solid #76879a;padding:7px 9px;line-height:20px&quot;&gt;- id: Long&lt;br&gt;- email: String&lt;br&gt;- passwordHash: String&lt;br&gt;- createdAt: LocalDateTime&lt;/div&gt;" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;fillColor=#ffffff;strokeColor=#76879a;fontColor=#182a3c;fontSize=13;overflow=fill;" parent="1" vertex="1">
+          <mxGeometry x="45" y="435" width="310" height="136" as="geometry" />
+        </mxCell>
+        <mxCell id="album" value="&lt;div style=&quot;text-align:center;background:#e3effb;padding:7px;font-size:16px&quot;&gt;&lt;b&gt;Album&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;border-top:1px solid #76879a;padding:7px 9px;line-height:20px&quot;&gt;- id: Long&lt;br&gt;- title: String&lt;br&gt;- description: String&lt;br&gt;- createdAt: LocalDate&lt;/div&gt;" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;fillColor=#ffffff;strokeColor=#76879a;fontColor=#182a3c;fontSize=13;overflow=fill;" parent="1" vertex="1">
+          <mxGeometry x="440" y="435" width="335" height="136" as="geometry" />
+        </mxCell>
+        <mxCell id="photo" value="&lt;div style=&quot;text-align:center;background:#e3effb;padding:7px;font-size:16px&quot;&gt;&lt;b&gt;Photo&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;border-top:1px solid #76879a;padding:7px 9px;line-height:20px&quot;&gt;- id: Long&lt;br&gt;- filename: String&lt;br&gt;- filePath: String&lt;br&gt;- title: String&lt;br&gt;- description: String&lt;br&gt;- uploadedAt: LocalDateTime&lt;br&gt;- dateTaken: LocalDateTime&lt;br&gt;- favorite: boolean&lt;/div&gt;" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;fillColor=#ffffff;strokeColor=#76879a;fontColor=#182a3c;fontSize=13;overflow=fill;" parent="1" vertex="1">
+          <mxGeometry x="865" y="435" width="385" height="218" as="geometry" />
+        </mxCell>
+        <mxCell id="like" value="&lt;div style=&quot;text-align:center;background:#f1eafa;padding:7px;font-size:16px&quot;&gt;&lt;div style=&quot;font-size:11px;color:#643a88&quot;&gt;«načrtovano»&lt;/div&gt;&lt;b&gt;PostLike&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;border-top:1px solid #76879a;padding:7px 9px;line-height:20px&quot;&gt;- id: Long&lt;br&gt;- createdAt: LocalDateTime&lt;/div&gt;" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;fillColor=#ffffff;strokeColor=#76879a;fontColor=#182a3c;fontSize=13;overflow=fill;" parent="1" vertex="1">
+          <mxGeometry x="45" y="750" width="310" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="comment" value="&lt;div style=&quot;text-align:center;background:#f1eafa;padding:7px;font-size:16px&quot;&gt;&lt;div style=&quot;font-size:11px;color:#643a88&quot;&gt;«načrtovano»&lt;/div&gt;&lt;b&gt;PostComment&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;border-top:1px solid #76879a;padding:7px 9px;line-height:20px&quot;&gt;- id: Long&lt;br&gt;- text: String&lt;br&gt;- createdAt: LocalDateTime&lt;/div&gt;" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;fillColor=#ffffff;strokeColor=#76879a;fontColor=#182a3c;fontSize=13;overflow=fill;" parent="1" vertex="1">
+          <mxGeometry x="440" y="750" width="335" height="128" as="geometry" />
+        </mxCell>
+        <mxCell id="post" value="&lt;div style=&quot;text-align:center;background:#f1eafa;padding:7px;font-size:16px&quot;&gt;&lt;div style=&quot;font-size:11px;color:#643a88&quot;&gt;«načrtovano»&lt;/div&gt;&lt;b&gt;PhotoPost&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;border-top:1px solid #76879a;padding:7px 9px;line-height:20px&quot;&gt;- id: Long&lt;br&gt;- publishedAt: LocalDateTime&lt;/div&gt;" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;fillColor=#ffffff;strokeColor=#76879a;fontColor=#182a3c;fontSize=13;overflow=fill;" parent="1" vertex="1">
+          <mxGeometry x="865" y="750" width="385" height="108" as="geometry" />
+        </mxCell>
+        <mxCell id="public" value="&lt;div style=&quot;text-align:center;background:#f1eafa;padding:7px;font-size:16px&quot;&gt;&lt;div style=&quot;font-size:11px;color:#643a88&quot;&gt;«načrtovano»&lt;/div&gt;&lt;b&gt;PublicPostService&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;border-top:1px solid #76879a;padding:7px 9px;line-height:20px&quot;&gt;+ publishPhoto(userId: Long, photoId: Long): PhotoPost&lt;br&gt;+ listPublicPosts(): List&amp;lt;PhotoPost&amp;gt;&lt;br&gt;+ likePost(userId: Long, postId: Long): PostLike&lt;br&gt;+ unlikePost(userId: Long, postId: Long): void&lt;br&gt;+ addComment(userId: Long, postId: Long, text: String): PostComment&lt;/div&gt;" style="html=1;whiteSpace=wrap;align=left;verticalAlign=top;spacing=0;fillColor=#ffffff;strokeColor=#76879a;fontColor=#182a3c;fontSize=13;overflow=fill;" parent="1" vertex="1">
+          <mxGeometry x="865" y="950" width="385" height="177" as="geometry" />
+        </mxCell>
+        <mxCell id="auth-user" style="html=1;rounded=0;strokeColor=#52657b;fontColor=#25364a;fontSize=13;labelBackgroundColor=#ffffff;endArrow=open;endFill=0;dashed=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" parent="1" source="auth" target="user" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ctrl-album" style="html=1;rounded=0;strokeColor=#52657b;fontColor=#25364a;fontSize=13;labelBackgroundColor=#ffffff;endArrow=open;endFill=0;dashed=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" parent="1" source="albums" target="album" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="owner" style="html=1;rounded=0;strokeColor=#52657b;fontColor=#25364a;fontSize=13;labelBackgroundColor=#ffffff;endArrow=none;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="user" target="album" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="owner-0" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=13;fontColor=#25364a;labelBackgroundColor=#ffffff;" parent="owner" vertex="1">
+          <mxGeometry x="-0.94" relative="1" as="geometry">
+            <mxPoint x="16" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="owner-1" value="0..*" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=13;fontColor=#25364a;labelBackgroundColor=#ffffff;" parent="owner" vertex="1">
+          <mxGeometry x="0.94" relative="1" as="geometry">
+            <mxPoint x="-16" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="photos" style="html=1;rounded=0;strokeColor=#52657b;fontColor=#25364a;fontSize=13;labelBackgroundColor=#ffffff;endArrow=none;exitX=1;exitY=0.5;entryX=0;entryY=0.3119266055;" parent="1" source="album" target="photo" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="photos-0" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=13;fontColor=#25364a;labelBackgroundColor=#ffffff;" parent="photos" vertex="1">
+          <mxGeometry x="-0.94" relative="1" as="geometry">
+            <mxPoint x="16" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="photos-1" value="0..*" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=13;fontColor=#25364a;labelBackgroundColor=#ffffff;" parent="photos" vertex="1">
+          <mxGeometry x="0.94" relative="1" as="geometry">
+            <mxPoint x="-16" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="published" style="html=1;rounded=0;strokeColor=#52657b;fontColor=#25364a;fontSize=13;labelBackgroundColor=#ffffff;endArrow=none;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" parent="1" source="photo" target="post" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="published-0" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=13;fontColor=#25364a;labelBackgroundColor=#ffffff;" parent="published" vertex="1">
+          <mxGeometry x="-0.94" relative="1" as="geometry">
+            <mxPoint x="18" y="14" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="published-1" value="0..1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=13;fontColor=#25364a;labelBackgroundColor=#ffffff;" parent="published" vertex="1">
+          <mxGeometry x="0.94" relative="1" as="geometry">
+            <mxPoint x="18" y="-17" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="like-user" style="html=1;rounded=0;strokeColor=#52657b;fontColor=#25364a;fontSize=13;labelBackgroundColor=#ffffff;endArrow=none;exitX=0.25;exitY=1;entryX=0.25;entryY=0;" parent="1" source="user" target="like" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="like-user-0" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=13;fontColor=#25364a;labelBackgroundColor=#ffffff;" parent="like-user" vertex="1">
+          <mxGeometry x="-0.94" relative="1" as="geometry">
+            <mxPoint x="8" y="14" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="like-user-1" value="0..*" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=13;fontColor=#25364a;labelBackgroundColor=#ffffff;" parent="like-user" vertex="1">
+          <mxGeometry x="0.94" relative="1" as="geometry">
+            <mxPoint x="21" y="-15" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="comment-user" style="html=1;rounded=0;strokeColor=#52657b;fontColor=#25364a;fontSize=13;labelBackgroundColor=#ffffff;endArrow=none;exitX=0.75;exitY=1;entryX=0.5;entryY=0;" parent="1" source="user" target="comment" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="278" y="677" />
+              <mxPoint x="607.5" y="677" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="comment-user-0" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=13;fontColor=#25364a;labelBackgroundColor=#ffffff;" parent="comment-user" vertex="1">
+          <mxGeometry x="-0.94" relative="1" as="geometry">
+            <mxPoint x="21" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="comment-user-1" value="0..*" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=13;fontColor=#25364a;labelBackgroundColor=#ffffff;" parent="comment-user" vertex="1">
+          <mxGeometry x="0.94" relative="1" as="geometry">
+            <mxPoint x="21" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="post-comment" style="html=1;rounded=0;strokeColor=#52657b;fontColor=#25364a;fontSize=13;labelBackgroundColor=#ffffff;endArrow=none;exitX=0;exitY=0.5;entryX=1;entryY=0.421875;" parent="1" source="post" target="comment" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="post-comment-0" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=13;fontColor=#25364a;labelBackgroundColor=#ffffff;" parent="post-comment" vertex="1">
+          <mxGeometry x="-0.94" relative="1" as="geometry">
+            <mxPoint x="-16" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="post-comment-1" value="0..*" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=13;fontColor=#25364a;labelBackgroundColor=#ffffff;" parent="post-comment" vertex="1">
+          <mxGeometry x="0.94" relative="1" as="geometry">
+            <mxPoint x="16" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="post-like" style="html=1;rounded=0;strokeColor=#52657b;fontColor=#25364a;fontSize=13;labelBackgroundColor=#ffffff;endArrow=none;exitX=0.25;exitY=1;entryX=0.5;entryY=1;" parent="1" source="post" target="like" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="961.25" y="906" />
+              <mxPoint x="200" y="906" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="post-like-0" value="1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=13;fontColor=#25364a;labelBackgroundColor=#ffffff;" parent="post-like" vertex="1">
+          <mxGeometry x="-0.94" relative="1" as="geometry">
+            <mxPoint x="22" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="post-like-1" value="0..*" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=13;fontColor=#25364a;labelBackgroundColor=#ffffff;" parent="post-like" vertex="1">
+          <mxGeometry x="0.94" relative="1" as="geometry">
+            <mxPoint x="22" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="service-post" style="html=1;rounded=0;strokeColor=#52657b;fontColor=#25364a;fontSize=13;labelBackgroundColor=#ffffff;endArrow=open;endFill=0;dashed=1;exitX=0.78;exitY=0;entryX=0.78;entryY=1;" parent="1" source="public" target="post" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
