@@ -71,7 +71,7 @@ Besednjak pojasnjuje izraze, ki jih uporabljamo pri organiziranju in pregledovan
 | **Datum ustvarjanja albuma** | Datum, ko je uporabnik ustvaril album v aplikaciji. Ne določa, kdaj so bile posnete fotografije v njem. |
 | **Naslov fotografije** | Neobvezno ime, ki ga fotografiji dodeli uporabnik, na primer »Sončni zahod na morju«. Ločeno je od izvirnega imena slikovne datoteke in ima največ 100 znakov. |
 | **Opis fotografije** | Neobvezno besedilo o vsebini fotografije, na primer kraj ali dogodek. Ima največ 2000 znakov. |
-| **Iskanje fotografij po naslovu in opisu** | Načrtovani prikaz lastnih fotografij, katerih naslov ali opis vsebuje vneseni niz, ne glede na velikost črk. |
+| **Iskanje fotografij po naslovu in opisu** | Prikaz lastnih fotografij, katerih naslov ali opis vsebuje vneseni niz, ne glede na velikost črk. |
 | **Filtriranje fotografij po datumu** | Prikaz fotografij, katerih datum nastanka je v izbranem obdobju, vključno z začetnim in končnim dnem. Fotografije brez znanega datuma nastanka se pri tem ne prikažejo. |
 
 ## Vizija projekta
@@ -99,6 +99,8 @@ fotografij.
 
 ### Ključne funkcionalnosti
 
+- Iskanje fotografij po naslovu in opisu, tudi skupaj z datumskim filtrom in filtrom priljubljenih.
+
 - Registracija, prijava in odjava uporabnika.
 - Ustvarjanje, pregledovanje, urejanje in brisanje albumov.
 - Nalaganje fotografij JPG in PNG v izbrani album.
@@ -114,7 +116,6 @@ fotografij.
 
 ### Načrtovane funkcionalnosti
 
-- Iskanje fotografij v zasebni zbirki po delu naslova ali opisa, tudi skupaj z datumskim filtrom in filtrom priljubljenih.
 - Javno objavljanje fotografij, ki jih uporabnik izbere iz svoje zbirke.
 - Javna stran za ogled lastnih objav in objav drugih uporabnikov.
 - Všečkanje in komentiranje javnih objav za prijavljene uporabnike.
@@ -154,10 +155,9 @@ Diagram prikazuje registracijo, prijavo ter delo z zasebno zbirko albumov in fot
 
 ## Razredni diagram
 
-Prikazuje uporabniške račune, upravljanje albumov in javne objave.
-Osnovni razredi `AppUser`, `Album` in `Photo` so skupni celotni aplikaciji. Razredi javnih objav so označeni kot načrtovani.
+Prikazuje uporabniške račune, albume, kategorije, fotografije in načrtovane nadgradnje: javne objave, deljenje ter koš. Načrtovani razredi so označeni vijolično.
 
-![Razredni diagram FotoAlbum za račune, albume in javne objave](docs/razredni-diagram/razredni-diagram.svg)
+![Razredni diagram FotoAlbum](docs/razredni-diagram/razredni-diagram.svg)
 
 [Urejevalna datoteka draw.io](docs/razredni-diagram/razredni-diagram.drawio)
 
@@ -173,6 +173,18 @@ Osnovni razredi `AppUser`, `Album` in `Photo` so skupni celotni aplikaciji. Razr
 | `PostLike` | Poveže uporabnika z objavo in zabeleži čas všečka. Uporabnik lahko isto objavo všečka največ enkrat. |
 | `PostComment` | Hrani besedilo in čas nastanka komentarja ter povezuje avtorja z objavo. Uporabnik lahko isto objavo komentira večkrat. |
 | `PublicPostService` | `publishPhoto(userId, photoId)` objavi izbrano lastno fotografijo. `listPublicPosts()` pripravi prikaz lastnih in tujih objav na javni strani. `likePost(userId, postId)` in `unlikePost(userId, postId)` dodata ali odstranita všeček, `addComment(userId, postId, text)` pa shrani komentar. Všečkanje in komentiranje zahtevata prijavo. |
+| `Category` | Hrani ime kategorije uporabnika. `getName()` prebere ime, `setName(name)` ga nastavi. Kategorijo lahko uporablja več lastnikovih albumov. |
+| `CategoryController` | `all()` vrne kategorije prijavljenega uporabnika za izbiro in filtriranje albumov. |
+| `DefaultCategories` | `createFor(user)` ob registraciji pripravi privzete kategorije iz seznama `NAMES`. |
+| `PhotoController` | `uploadPhotos(albumId, files)` sprejme slike, `getPhotosByAlbum(albumId, q)` vrne fotografije albuma, `deleteAllPhotosByAlbum(albumId)` zahteva njihovo brisanje. |
+| `PhotoFileController` | Omogoča ogled slike in podrobnosti, iskanje ter filtre. `updateDetails` spremeni naslov in opis, `setFavorite` priljubljenost, `deletePhoto` pa zahteva izbris. |
+| `PhotoService` | Preverja lastništvo in ustreznost datotek ter shranjuje slike. `getAllPhotos` združi iskanje, datum in priljubljenost; `updateDetails` uredi podatke, `setFavorite` spremeni priljubljenost. |
+| `PhotoSearch` | Statična `normalize(query)` pripravi iskalni niz; `matches(title, description, query)` poišče besedilo v naslovu ali opisu ne glede na velikost črk. |
+| `AlbumShare` | Načrtovana povezava za ogled albuma z enoličnim žetonom in datumom preklica. `isActive()` preveri, ali povezava še velja. |
+| `AlbumShareService` | Načrtovani `createLink` in `revokeLink` ustvarita oziroma prekličeta povezavo. `viewSharedAlbum`, `listSharedPhotos` in `readSharedPhoto` omogočajo ogled prek veljavnega žetona. |
+| `PhotoTrashService` | Načrtovani `moveToTrash` premakne fotografijo v koš, `listTrash` vrne koš, `restore` obnovi fotografijo v lasten album, `purgeExpired` pa po 30 dneh odstrani zapis in datoteko. |
+
+Pri razredu `Photo` sta načrtovana `deletedAt` in neposredna povezava z lastnikom. Fotografija v košu lahko ostane brez albuma; zato je povezava z albumom `0..1`. Obnoviti jo je mogoče pred iztekom 30 dni v izbran lasten album, nato sledi samodejni dokončni izbris. Fotografije v košu niso javno vidne; premik v koš odstrani njihovo javno objavo. Delilna povezava omogoča samo ogled in jo lastnik lahko prekliče.
 
 ## Primeri uporabe
 
@@ -202,7 +214,7 @@ pregledovanje in odstranjevanje albumov in fotografij.
 | PU-12 | Filtriranje fotografij po datumu nastanka | Prikaz fotografij iz izbranega obdobja. |
 | PU-13 | Odjava uporabnika | Zaključek prijavne seje in vrnitev na prijavno stran. |
 | PU-14 | Dodajanje in urejanje naslova ter opisa fotografije | Shranjevanje, spreminjanje ali odstranjevanje naslova in opisa. |
-| PU-15 | Iskanje fotografij po naslovu in opisu | Iskanje po besedilu v naslovu ali opisu z upoštevanjem filtrov. Načrtovano. |
+| PU-15 | Iskanje fotografij po naslovu in opisu | Iskanje po besedilu v naslovu ali opisu z upoštevanjem filtrov. |
 
 [Podrobni opisi primerov uporabe](docs/primeri-uporabe.md) vsebujejo predpogoje,
 scenarije, alternativne tokove in izjeme za vse navedene primere.
